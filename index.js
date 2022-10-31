@@ -3,11 +3,9 @@ import { newRow, setSecondaryStats } from "./utils.js";
 
 const generateBtn = document.querySelector("button");
 const raceElt = document.querySelector("#race");
-let characterCreated = 0;
 
 generateBtn.addEventListener("click", () => {
   document.querySelector("#tBodyPrimary").innerHTML = "";
-  characterCreated++;
 
   const rand = Math.floor(Math.random() * races.length);
   const { race, stats } = races[rand];
