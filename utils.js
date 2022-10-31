@@ -62,6 +62,7 @@ export const resetRow = (row, raceStats) => {
 };
 
 export const addTooltip = (raceStats, node, roll) => {
+  node.style.color = "#0000EE";
   node.setAttribute(
     "data-tooltip",
     `Score de base : ${raceStats.value}
