@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma-tooltip/1.2.0/bulma-tooltip.min.css"
+    integrity="sha512-eQONsEIU2JzPniggWsgCyYoASC8x8nS0w6+e5LQZbdvWzDUVfUh+vQZFmB2Ykj5uqGDIsY7tSUCdTxImWBShYg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <link rel="icon" type="image/x-icon" href="./icons/dice.png" />
+
+  <title>Genetateur brigandyne</title>
+</head>
+
+<body class="container">
+  <div class="columns box">
+    <!-- Column button -->
+    <div class="column is-one-fifth">
+      <button class="button is-warning">Générer</button>
+    </div>
+
+    <!-- Column primary stats -->
+    <div class="column">
+      <p id="race"></p>
+      <div class="columns">
+
+        <div class="column">
+          <table class="table is-striped">
+            <thead>
+              <tr>
+                <th id="competences">Compétences</th>
+                <th id="modif">Abréviations</th>
+                <th id="score">Score</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="tBodyPrimary"></tbody>
+          </table>
+        </div>
+
+        <!-- Column secondary stats   -->
+        <div class="column">
+          <table class="table is-striped">
+            <thead>
+              <tr>
+                <th>Attributs</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Initiative</td>
+                <td id="initiative">
+              </tr>
+              </tr>
+              <tr>
+                <td>Vitalité</td>
+                <td id="vitalité">
+              </tr>
+              </tr>
+              <tr>
+                <td>Sang-froid</td>
+                <td id="sangfroid">
+              </tr>
+              </tr>
+              <tr>
+                <td>Destin</td>
+                <td id="destin">
+              </tr>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./index.js"></script>
+</body>
+
+</html>
