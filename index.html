@@ -24,11 +24,12 @@
         <input type="checkbox"> Nain</input><br>
         <input type="checkbox"> Elfe</input><br>
         <input type="checkbox"> Halfelin</input><br>
-      </label>
+      </label><br><br>
+      <button  id="saveBtn" class="button is-default is-success" style="display: none;">Save</button>
     </div>
 
     <!-- Column primary stats -->
-    <div class="column">
+    <div class="column" id="capture">
       <p id="race"></p>
       <div class="columns">
 
@@ -83,6 +84,8 @@
     </div>
   </div>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+  <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
   <script type="module" src="./index.js"></script>
 </body>
 

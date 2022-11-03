@@ -99,16 +99,15 @@ function setnodeList() {
 }
 
 export const setSecondaryStats = (special) => {
+  setnodeList();
+
   const { stats } = special;
 
   stats.forEach((stat) => {
     let newValue = parseInt(nodeList[stat.name].innerHTML);
-
     newValue += stat.value;
     nodeList[stat.name].innerHTML = newValue;
   });
-
-  setnodeList();
 
   setInitiative();
   setVitalite();

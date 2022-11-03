@@ -2,6 +2,7 @@ import races from "./data/races.js";
 import { getNode, newRow, setSecondaryStats } from "./utils.js";
 
 const btn = getNode("button");
+const saveBtn = getNode("#saveBtn");
 const raceIs = getNode("#race");
 
 btn.addEventListener("click", () => {
@@ -32,9 +33,18 @@ btn.addEventListener("click", () => {
 
   const storedChar = [];
 
-  for (const d of stats) {
-    storedChar.push(newRow(d));
+  for (const stat of stats) {
+    storedChar.push(newRow(stat));
   }
 
   setSecondaryStats(special);
+  saveBtn.style.display = "";
+});
+
+saveBtn.addEventListener("click", function () {
+  html2canvas(document.querySelector("#capture"), {
+    onrendered: function (canvas) {
+      return Canvas2Image.saveAsPNG(canvas);
+    },
+  });
 });
