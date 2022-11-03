@@ -1,3 +1,7 @@
+export const getNode = (attribute) => {
+  return document.querySelector(attribute);
+};
+
 export const newRow = (raceStats) => {
   const roll = rollDice(2, 10);
 
@@ -72,7 +76,7 @@ export const addTooltip = (raceStats, node, roll) => {
   node.className = "has-tooltip-right";
 };
 
-export const setSecondaryStats = (stats) => {
+export const setSecondaryStats = () => {
   const race = document.querySelector("#race");
 
   const combat = document.querySelector("#combat").innerHTML;
@@ -113,3 +117,7 @@ export const setSecondaryStats = (stats) => {
 export const calculateIndice = (number) => {
   return +String(number)[0];
 };
+
+export const setInitiative = () => {};
+export const setVitalité = () => {};
+export const setSangFroid = () => {};
