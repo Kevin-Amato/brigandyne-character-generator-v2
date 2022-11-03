@@ -7,8 +7,24 @@ const raceIs = getNode("#race");
 btn.addEventListener("click", () => {
   getNode("#tBodyPrimary").innerHTML = "";
 
-  const rand = Math.floor(Math.random() * races.length);
-  const { race, stats } = races[rand];
+  const checkedRaces = [];
+  const raceList = document.querySelectorAll("input");
+
+  raceList.forEach((race) => {
+    race.checked
+      ? checkedRaces.push(race.nextSibling.data.trim().toLowerCase())
+      : null;
+  });
+
+  const rand = Math.floor(
+    Math.random() *
+      (checkedRaces.length <= 0 ? races.length : checkedRaces.length)
+  );
+  const checkedRaceList = races.filter((race) =>
+    checkedRaces.includes(race.race.toLowerCase())
+  );
+  const { race, stats, special } =
+    checkedRaces.length <= 0 ? races[rand] : checkedRaceList[rand];
 
   raceIs.innerHTML = race;
   raceIs.style.fontWeight = 900;
@@ -20,5 +36,5 @@ btn.addEventListener("click", () => {
     storedChar.push(newRow(d));
   }
 
-  setSecondaryStats();
+  setSecondaryStats(special);
 });

@@ -98,7 +98,16 @@ function setnodeList() {
   nodeList.destin = getNode("#destin");
 }
 
-export const setSecondaryStats = () => {
+export const setSecondaryStats = (special) => {
+  const { stats } = special;
+
+  stats.forEach((stat) => {
+    let newValue = parseInt(nodeList[stat.name].innerHTML);
+
+    newValue += stat.value;
+    nodeList[stat.name].innerHTML = newValue;
+  });
+
   setnodeList();
 
   setInitiative();
