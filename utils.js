@@ -40,12 +40,6 @@ export const newRow = (raceStats) => {
   tr.appendChild(td3);
   tr.appendChild(td4);
   tBodyPrimary.appendChild(tr);
-
-  return {
-    name: raceStats["name"].toLowerCase(),
-    sum: raceStats.value + roll.sum,
-    indice: +String(raceStats.value + roll.sum)[0],
-  };
 };
 
 export const rollDice = (nbrOfDice, valueOfDice) => {
@@ -83,13 +77,19 @@ function setnodeList() {
   nodeList.race = getNode("#race");
 
   // primary stats
-  nodeList.combat = getNode("#combat").innerHTML;
-  nodeList.mouvement = getNode("#mouvement").innerHTML;
-  nodeList.perception = getNode("#perception").innerHTML;
-  nodeList.volonte = getNode("#volonté").innerHTML;
-  nodeList.force = getNode("#force").innerHTML;
-  nodeList.endurance = getNode("#endurance").innerHTML;
-  nodeList.connaissances = getNode("#connaissances").innerHTML;
+  nodeList.combat = getNode("#combat");
+  nodeList.connaissances = getNode("#connaissances");
+  nodeList.discretion = getNode("#discrétion");
+  nodeList.endurance = getNode("#endurance");
+  nodeList.force = getNode("#force");
+  nodeList.habilite = getNode("#habilité");
+  nodeList.magie = getNode("#magie");
+  nodeList.mouvement = getNode("#mouvement");
+  nodeList.perception = getNode("#perception");
+  nodeList.sociabilite = getNode("#sociabilité");
+  nodeList.survie = getNode("#survie");
+  nodeList.tir = getNode("#tir");
+  nodeList.volonte = getNode("#volonté");
 
   // secondary stats
   nodeList.initiative = getNode("#initiative");
@@ -113,6 +113,7 @@ export const setSecondaryStats = (special) => {
   setVitalite();
   setSangFroid();
   setDestin();
+  eraseAttribute();
 };
 
 export const calculateIndice = (number) => {
@@ -121,23 +122,23 @@ export const calculateIndice = (number) => {
 
 export const setInitiative = () => {
   nodeList.initiative.innerHTML =
-    calculateIndice(nodeList.combat) +
-    calculateIndice(nodeList.mouvement) +
-    calculateIndice(nodeList.perception);
+    calculateIndice(nodeList.combat.innerHTML) +
+    calculateIndice(nodeList.mouvement.innerHTML) +
+    calculateIndice(nodeList.perception.innerHTML);
 };
 
 export const setVitalite = () => {
   nodeList.vitalité.innerHTML =
-    Math.floor(nodeList.force / 5) +
-    Math.floor(nodeList.endurance / 5) +
-    calculateIndice(nodeList.volonte);
+    Math.floor(nodeList.force.innerHTML / 5) +
+    Math.floor(nodeList.endurance.innerHTML / 5) +
+    calculateIndice(nodeList.volonte.innerHTML);
 };
 
 export const setSangFroid = () => {
   nodeList.sangfroid.innerHTML =
-    Math.floor(nodeList.volonte / 5) +
-    Math.floor(nodeList.connaissances / 5) +
-    calculateIndice(nodeList.combat);
+    Math.floor(nodeList.volonte.innerHTML / 5) +
+    Math.floor(nodeList.connaissances.innerHTML / 5) +
+    calculateIndice(nodeList.combat.innerHTML);
 };
 
 export const setDestin = () => {
@@ -145,5 +146,11 @@ export const setDestin = () => {
     nodeList.destin.innerHTML = 3;
   } else {
     nodeList.destin.innerHTML = 2;
+  }
+};
+
+export const eraseAttribute = () => {
+  for (const node in nodeList) {
+    nodeList[node].removeAttribute("data-tooltip");
   }
 };
