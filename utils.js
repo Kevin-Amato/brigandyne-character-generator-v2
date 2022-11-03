@@ -1,3 +1,5 @@
+const nodeList = {};
+
 export const getNode = (attribute) => {
   return document.querySelector(attribute);
 };
@@ -5,7 +7,7 @@ export const getNode = (attribute) => {
 export const newRow = (raceStats) => {
   const roll = rollDice(2, 10);
 
-  const tBodyPrimary = document.querySelector("#tBodyPrimary");
+  const tBodyPrimary = getNode("#tBodyPrimary");
   const tr = document.createElement("tr");
 
   const td1 = document.createElement("td");
@@ -76,48 +78,64 @@ export const addTooltip = (raceStats, node, roll) => {
   node.className = "has-tooltip-right";
 };
 
+function setnodeList() {
+  // display race name
+  nodeList.race = getNode("#race");
+
+  // primary stats
+  nodeList.combat = getNode("#combat").innerHTML;
+  nodeList.mouvement = getNode("#mouvement").innerHTML;
+  nodeList.perception = getNode("#perception").innerHTML;
+  nodeList.volonte = getNode("#volonté").innerHTML;
+  nodeList.force = getNode("#force").innerHTML;
+  nodeList.endurance = getNode("#endurance").innerHTML;
+  nodeList.connaissances = getNode("#connaissances").innerHTML;
+
+  // secondary stats
+  nodeList.initiative = getNode("#initiative");
+  nodeList.vitalité = getNode("#vitalité");
+  nodeList.sangfroid = getNode("#sangfroid");
+  nodeList.destin = getNode("#destin");
+}
+
 export const setSecondaryStats = () => {
-  const race = document.querySelector("#race");
+  setnodeList();
 
-  const combat = document.querySelector("#combat").innerHTML;
-  const mouvement = document.querySelector("#mouvement").innerHTML;
-  const perception = document.querySelector("#perception").innerHTML;
-  const volonte = document.querySelector("#volonté").innerHTML;
-  const force = document.querySelector("#force").innerHTML;
-  const endurance = document.querySelector("#endurance").innerHTML;
-  const connaissances = document.querySelector("#connaissances").innerHTML;
-
-  const initiative = document.querySelector("#initiative");
-  const vitalité = document.querySelector("#vitalité");
-  const sangfroid = document.querySelector("#sangfroid");
-  const destin = document.querySelector("#destin");
-
-  initiative.innerHTML =
-    calculateIndice(combat) +
-    calculateIndice(mouvement) +
-    calculateIndice(perception);
-
-  vitalité.innerHTML =
-    Math.floor(force / 5) +
-    Math.floor(endurance / 5) +
-    calculateIndice(volonte);
-
-  sangfroid.innerHTML =
-    Math.floor(volonte / 5) +
-    Math.floor(connaissances / 5) +
-    calculateIndice(combat);
-
-  if (race.innerHTML === "Humain" || race.innerHTML === "Halfelin") {
-    destin.innerHTML = 3;
-  } else {
-    destin.innerHTML = 2;
-  }
+  setInitiative();
+  setVitalite();
+  setSangFroid();
+  setDestin();
 };
 
 export const calculateIndice = (number) => {
   return +String(number)[0];
 };
 
-export const setInitiative = () => {};
-export const setVitalité = () => {};
-export const setSangFroid = () => {};
+export const setInitiative = () => {
+  nodeList.initiative.innerHTML =
+    calculateIndice(nodeList.combat) +
+    calculateIndice(nodeList.mouvement) +
+    calculateIndice(nodeList.perception);
+};
+
+export const setVitalite = () => {
+  nodeList.vitalité.innerHTML =
+    Math.floor(nodeList.force / 5) +
+    Math.floor(nodeList.endurance / 5) +
+    calculateIndice(nodeList.volonte);
+};
+
+export const setSangFroid = () => {
+  nodeList.sangfroid.innerHTML =
+    Math.floor(nodeList.volonte / 5) +
+    Math.floor(nodeList.connaissances / 5) +
+    calculateIndice(nodeList.combat);
+};
+
+export const setDestin = () => {
+  if (race.innerHTML === "Humain" || race.innerHTML === "Halfelin") {
+    nodeList.destin.innerHTML = 3;
+  } else {
+    nodeList.destin.innerHTML = 2;
+  }
+};

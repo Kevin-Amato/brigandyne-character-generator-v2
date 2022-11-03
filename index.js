@@ -14,5 +14,11 @@ btn.addEventListener("click", () => {
   raceIs.style.fontWeight = 900;
   raceIs.style.textDecoration = "underline #ffdd57";
 
+  const storedChar = [];
+
+  for (const d of stats) {
+    storedChar.push(newRow(d));
+  }
+
   setSecondaryStats();
 });

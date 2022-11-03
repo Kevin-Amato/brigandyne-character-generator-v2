@@ -57,7 +57,7 @@ export default {
       value: 30,
     },
     {
-      name: "TIR",
+      name: "Tir",
       abr: "TIR",
       value: 30,
     },
