@@ -70,6 +70,6 @@ export default {
   limit: {},
   special: {
     traits: [],
-    stats: {},
+    stats: [],
   },
 };

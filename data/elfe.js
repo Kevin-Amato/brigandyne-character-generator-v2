@@ -70,6 +70,6 @@ export default {
   limit: { for: 60 },
   special: {
     traits: ["Nyctalopie"],
-    stats: {},
+    stats: [],
   },
 };

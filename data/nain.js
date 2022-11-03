@@ -70,6 +70,9 @@ export default {
   limit: { mouv: 60 },
   special: {
     traits: [],
-    stats: { sf: 1, pv: 1 },
+    stats: [
+      { name: "sangfroid", value: 1 },
+      { name: "vitalité", value: 1 },
+    ],
   },
 };

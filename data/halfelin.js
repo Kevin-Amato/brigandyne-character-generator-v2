@@ -73,6 +73,6 @@ export default {
   },
   special: {
     traits: [],
-    stats: {},
+    stats: [],
   },
 };
