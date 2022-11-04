@@ -113,7 +113,6 @@ export const setSecondaryStats = (special) => {
   setVitalite();
   setSangFroid();
   setDestin();
-  eraseAttribute();
 };
 
 export const calculateIndice = (number) => {
@@ -146,11 +145,5 @@ export const setDestin = () => {
     nodeList.destin.innerHTML = 3;
   } else {
     nodeList.destin.innerHTML = 2;
-  }
-};
-
-export const eraseAttribute = () => {
-  for (const node in nodeList) {
-    nodeList[node].removeAttribute("data-tooltip");
   }
 };
