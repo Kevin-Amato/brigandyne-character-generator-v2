@@ -43,11 +43,10 @@ export const newRow = (raceStats) => {
 };
 
 export const rollDice = (nbrOfDice, valueOfDice) => {
-  valueOfDice++;
   let score = { dice: [], sum: 0 };
 
   for (let i = 0; i < nbrOfDice; i++) {
-    const rand = Math.floor(Math.random() * valueOfDice);
+    const rand = Math.floor(Math.random() * valueOfDice) + 1;
     score["sum"] += rand;
     score["dice"].push(rand);
   }
