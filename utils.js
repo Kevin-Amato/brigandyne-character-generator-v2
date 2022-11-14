@@ -177,10 +177,7 @@ export const setArchetype = (archetype) => {
   nodeList.lockArchetype.setAttribute("disabled", "");
 
   disableRollButtons();
-  setInitiative();
-  setVitalite();
-  setSangFroid();
-  setDestin();
+  setSecondaryStats();
 };
 
 export const disableRollButtons = () => {
