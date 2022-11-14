@@ -37,8 +37,10 @@
         <input type="checkbox"> Halfelin</input><br>
       </label>
       <br><br>
-      <div class="select is-small" id="selectArchetype">
-          <select>
+
+      <div hidden id="displayArchetype">
+        <div class="select is-small"  >
+          <select id="selectedArchetype">
             <option value="aigle">Aigle</option>
             <option value="ane">Âne</option>
             <option value="cerf">Cerf</option>
@@ -64,9 +66,13 @@
             <option value="taureau">Taureau</option>
             <option value="vautour">Vautour</option>
           </select>
+        </div>
+        <!-- lock archetype -->
+        <button  id="lockArchetype" class="button is-default is-warning is-small">Ok</button>
       </div>
+
       <br><br>
-      <button  id="saveBtn" class="button is-default is-success" style="display: none;">Save</button>
+      <button  id="saveBtn" class="button is-default is-primary" disabled>Sauvegarder</button>
     </div>
 
     <div class="column" id="capture">

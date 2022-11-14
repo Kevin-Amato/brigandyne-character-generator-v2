@@ -1,12 +1,20 @@
 import races from "./data/races.js";
-import { getNode, newRow, setSecondaryStats } from "./utils.js";
+import archetypes from "./data/archetypes.js";
+import { getNode, newRow, setArchetype, setSecondaryStats } from "./utils.js";
 
 const btn = getNode("button");
 const saveBtn = getNode("#saveBtn");
 const raceIs = getNode("#race");
 
+const archetypeNode = getNode("#displayArchetype");
+const lockArchetype = getNode("#lockArchetype");
+const selectedArchetype = getNode("#selectedArchetype");
+
 btn.addEventListener("click", () => {
+  // reset previous generation
   getNode("#tBodyPrimary").innerHTML = "";
+  saveBtn.setAttribute("disabled", "");
+  lockArchetype.removeAttribute("disabled");
 
   const checkedRaces = [];
   const raceList = document.querySelectorAll("input");
@@ -38,7 +46,12 @@ btn.addEventListener("click", () => {
   }
 
   setSecondaryStats(special);
-  saveBtn.style.display = "";
+  archetypeNode.removeAttribute("hidden");
+});
+
+lockArchetype.addEventListener("click", () => {
+  const archetype = archetypes.find((a) => a.name === selectedArchetype.value);
+  setArchetype(archetype);
 });
 
 saveBtn.addEventListener("click", function () {

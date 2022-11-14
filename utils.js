@@ -24,6 +24,7 @@ export const newRow = (raceStats) => {
   td3.setAttribute("id", raceStats.name.toLowerCase());
 
   btn.className = "button is-small is-outlined";
+  btn.setAttribute("id", "rerollBtn");
   btn.innerHTML = "roll";
   btn.addEventListener("click", () => {
     resetRow(td3, raceStats);
@@ -42,11 +43,12 @@ export const newRow = (raceStats) => {
   tBodyPrimary.appendChild(tr);
 };
 
-export const rollDice = (nbrOfDice, valueOfDice) => {
+export const rollDice = (nbrOfDice, valueOfDice, isMinZero = false) => {
   let score = { dice: [], sum: 0 };
+  const minimum = isMinZero ? 0 : 1;
 
   for (let i = 0; i < nbrOfDice; i++) {
-    const rand = Math.floor(Math.random() * valueOfDice) + 1;
+    const rand = Math.floor(Math.random() * valueOfDice) + minimum;
     score["sum"] += rand;
     score["dice"].push(rand);
   }
@@ -61,7 +63,8 @@ export const resetRow = (row, raceStats) => {
 };
 
 export const addTooltip = (raceStats, node, roll) => {
-  node.style.color = "#0000EE";
+  node.style.textDecoration = "underline dotted";
+  node.style.fontWeight = "bold";
   node.setAttribute(
     "data-tooltip",
     `Score de base : ${raceStats.value}
@@ -95,6 +98,10 @@ function setnodeList() {
   nodeList.vitalité = getNode("#vitalité");
   nodeList.sangfroid = getNode("#sangfroid");
   nodeList.destin = getNode("#destin");
+
+  // other
+  nodeList.saveBtn = getNode("#saveBtn");
+  nodeList.lockArchetype = getNode("#lockArchetype");
 }
 
 export const setSecondaryStats = (special) => {
@@ -145,4 +152,40 @@ export const setDestin = () => {
   } else {
     nodeList.destin.innerHTML = 2;
   }
+};
+
+export const setArchetype = (archetype) => {
+  archetype.bonus.forEach((a) => {
+    const key = Object.keys(a)[0];
+    const statUpdated = a[key] > 0 ? "#4C8B55" : "red";
+
+    nodeList[key].innerHTML = Number(nodeList[key].innerHTML) + a[key];
+    nodeList[key].style.color = statUpdated;
+  });
+
+  archetype.random?.forEach((rand) => {
+    const { sum } = rollDice(1, 2, true);
+    const key = Object.keys(rand[sum])[0];
+
+    const statUpdated = rand[sum][key] > 0 ? "#4C8B55" : "red";
+
+    nodeList[key].innerHTML = Number(nodeList[key].innerHTML) + rand[sum][key];
+    nodeList[key].style.color = statUpdated;
+  });
+
+  nodeList.saveBtn.removeAttribute("disabled");
+  nodeList.lockArchetype.setAttribute("disabled", "");
+
+  disableRollButtons();
+  setInitiative();
+  setVitalite();
+  setSangFroid();
+  setDestin();
+};
+
+export const disableRollButtons = () => {
+  const rerollBtn = document.querySelectorAll("#rerollBtn");
+  rerollBtn.forEach((btn) => {
+    btn.setAttribute("disabled", "");
+  });
 };
