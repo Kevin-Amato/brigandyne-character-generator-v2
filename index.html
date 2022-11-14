@@ -18,7 +18,7 @@
     integrity="sha512-eQONsEIU2JzPniggWsgCyYoASC8x8nS0w6+e5LQZbdvWzDUVfUh+vQZFmB2Ykj5uqGDIsY7tSUCdTxImWBShYg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
-  <link rel="icon" type="image/x-icon" href="./icons/dice.png" />
+  <link rel="icon" type="image/x-icon" href="./medias/dice.png" />
 
   <title>Genetateur brigandyne v2</title>
 
@@ -35,15 +35,45 @@
         <input type="checkbox"> Nain</input><br>
         <input type="checkbox"> Elfe</input><br>
         <input type="checkbox"> Halfelin</input><br>
-      </label><br><br>
+      </label>
+      <br><br>
+      <div class="select is-small" id="selectArchetype">
+          <select>
+            <option value="aigle">Aigle</option>
+            <option value="ane">Âne</option>
+            <option value="cerf">Cerf</option>
+            <option value="chat">Chat</option>
+            <option value="chien">Chien</option>
+            <option value="coq">Coq</option>
+            <option value="corbeau">Corbeau</option>
+            <option value="fourmi">Fourmi</option>
+            <option value="hibou">Hibou</option>
+            <option value="hyene">Hyène</option>
+            <option value="lapin">Lapin</option>
+            <option value="lion">Lion</option>
+            <option value="loup">Loup</option>
+            <option value="mouton">Mouton</option>
+            <option value="ours">Ours</option>
+            <option value="paon">Paon</option>
+            <option value="porc">Porc</option>
+            <option value="rat">Rat</option>
+            <option value="renard">Renard</option>
+            <option value="serpent">Serpent</option>
+            <option value="singe">Singe</option>
+            <option value="souris">Souris</option>
+            <option value="taureau">Taureau</option>
+            <option value="vautour">Vautour</option>
+          </select>
+      </div>
+      <br><br>
       <button  id="saveBtn" class="button is-default is-success" style="display: none;">Save</button>
     </div>
 
-    <!-- Column primary stats -->
     <div class="column" id="capture">
       <p id="race"></p>
       <div class="columns">
-
+        
+        <!-- Column primary stats -->
         <div class="column is-two-thirds">
           <table class="table is-striped">
             <thead>
@@ -60,6 +90,7 @@
 
         <!-- Column secondary stats   -->
         <div class="column">
+          <div id="archetype"></div>
           <table class="table is-striped">
             <thead>
               <tr>
