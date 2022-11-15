@@ -11,14 +11,18 @@ const lockArchetype = getNode("#lockArchetype");
 const selectedArchetype = getNode("#selectedArchetype");
 const archetypeImg = getNode("#archetypeImg");
 const archetypeName = getNode("#archetypeName");
+const archetypeDescription = getNode("#archetypeDescription");
 
 generateBtn.addEventListener("click", () => {
   // reset previous generation
   getNode("#tBodyPrimary").innerHTML = "";
+
   printBtn.setAttribute("disabled", "");
   lockArchetype.removeAttribute("disabled");
+
   archetypeImg.src = "";
   archetypeName.innerHTML = "";
+  archetypeDescription.innerHTML = "";
 
   const checkedRaces = [];
   const raceList = document.querySelectorAll("input");
