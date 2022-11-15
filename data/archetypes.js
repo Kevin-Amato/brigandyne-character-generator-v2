@@ -66,7 +66,7 @@ export default [
   },
   {
     name: "hyene",
-    description: "Mmoqueur(-se), cruel(-le), violent(e)",
+    description: "Moqueur(-se), cruel(-le), violent(e)",
     bonus: [{ combat: 5 }],
     random: [
       [{ discretion: 5 }, { mouvement: 5 }],

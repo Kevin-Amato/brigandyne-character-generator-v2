@@ -104,6 +104,7 @@ function setnodeList() {
   nodeList.displayArchetype = getNode("#displayArchetype");
   nodeList.archetypeImg = getNode("#archetypeImg");
   nodeList.archetypeName = getNode("#archetypeName");
+  nodeList.archetypeDescription = getNode("#archetypeDescription");
 }
 
 export const setSecondaryStats = (special = []) => {
@@ -180,7 +181,7 @@ export const setArchetype = (archetype) => {
 
   disableRollButtons();
   setSecondaryStats();
-  setImgArchetype(archetype.name, archetype);
+  setImgArchetype(archetype);
 };
 
 export const disableRollButtons = () => {
@@ -190,9 +191,12 @@ export const disableRollButtons = () => {
   });
 };
 
-export const setImgArchetype = (name, test) => {
+export const setImgArchetype = (archetype) => {
+  const { name, description } = archetype;
   const upperName = name[0].toUpperCase() + name.slice(1);
 
   nodeList.archetypeName.innerHTML = upperName;
+  nodeList.archetypeDescription.innerHTML = description;
+  nodeList.archetypeDescription.style.fontStyle = "italic";
   nodeList.archetypeImg.src = `./medias/archetypes/${name}.jpg`;
 };
