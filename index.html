@@ -18,7 +18,7 @@
     integrity="sha512-eQONsEIU2JzPniggWsgCyYoASC8x8nS0w6+e5LQZbdvWzDUVfUh+vQZFmB2Ykj5uqGDIsY7tSUCdTxImWBShYg=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
-  <link rel="icon" type="image/x-icon" href="./icons/dice.png" />
+  <link rel="icon" type="image/x-icon" href="./medias/dice.png" />
 
   <title>Genetateur brigandyne v2</title>
 
@@ -35,16 +35,52 @@
         <input type="checkbox"> Nain</input><br>
         <input type="checkbox"> Elfe</input><br>
         <input type="checkbox"> Halfelin</input><br>
-      </label><br><br>
-      <button  id="saveBtn" class="button is-default is-success" style="display: none;">Save</button>
+      </label>
+      <br><br>
+
+      <div hidden id="displayArchetype">
+        <div class="select is-small"  >
+          <select id="selectedArchetype">
+            <option value="aigle">Aigle</option>
+            <option value="ane">Âne</option>
+            <option value="cerf">Cerf</option>
+            <option value="chat">Chat</option>
+            <option value="chien">Chien</option>
+            <option value="coq">Coq</option>
+            <option value="corbeau">Corbeau</option>
+            <option value="fourmi">Fourmi</option>
+            <option value="hibou">Hibou</option>
+            <option value="hyene">Hyène</option>
+            <option value="lapin">Lapin</option>
+            <option value="lion">Lion</option>
+            <option value="loup">Loup</option>
+            <option value="mouton">Mouton</option>
+            <option value="ours">Ours</option>
+            <option value="paon">Paon</option>
+            <option value="porc">Porc</option>
+            <option value="rat">Rat</option>
+            <option value="renard">Renard</option>
+            <option value="serpent">Serpent</option>
+            <option value="singe">Singe</option>
+            <option value="souris">Souris</option>
+            <option value="taureau">Taureau</option>
+            <option value="vautour">Vautour</option>
+          </select>
+        </div>
+        <!-- lock archetype -->
+        <button  id="lockArchetype" class="button is-default is-warning is-small">Ok</button>
+      </div>
+
+      <br><br>
+      <button  id="printBtn" class="button is-default is-primary" disabled>Sauvegarder</button>
     </div>
 
-    <!-- Column primary stats -->
     <div class="column" id="capture">
       <p id="race"></p>
       <div class="columns">
-
-        <div class="column is-two-thirds">
+        
+        <!-- Column primary stats -->
+        <div class="column is-two-thirds is-align-content-space-between" style="display: grid">
           <table class="table is-striped">
             <thead>
               <tr>
@@ -60,7 +96,7 @@
 
         <!-- Column secondary stats   -->
         <div class="column">
-          <table class="table is-striped">
+          <table class="table is-striped" style="margin: auto">
             <thead>
               <tr>
                 <th>Attributs</th>
@@ -90,6 +126,11 @@
               </tr>
             </tbody>
           </table>
+          
+          <div class="column has-text-centered" style="margin-top: 25px">
+            <img id="archetypeImg" src=""  style="width: 150px">
+            <p id="archetypeName"></p>
+          </div>
         </div>
       </div>
     </div>
