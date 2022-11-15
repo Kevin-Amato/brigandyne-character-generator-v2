@@ -63,7 +63,7 @@ export const resetRow = (row, raceStats) => {
 };
 
 export const addTooltip = (raceStats, node, roll) => {
-  node.style.textDecoration = "underline dotted";
+  node.style.textDecoration = "underline dotted lightgrey 2px";
   node.style.fontWeight = "bold";
   node.setAttribute(
     "data-tooltip",
@@ -100,8 +100,10 @@ function setnodeList() {
   nodeList.destin = getNode("#destin");
 
   // other
-  nodeList.saveBtn = getNode("#saveBtn");
-  nodeList.lockArchetype = getNode("#lockArchetype");
+  nodeList.printBtn = getNode("#printBtn");
+  nodeList.displayArchetype = getNode("#displayArchetype");
+  nodeList.archetypeImg = getNode("#archetypeImg");
+  nodeList.archetypeName = getNode("#archetypeName");
 }
 
 export const setSecondaryStats = (special = []) => {
@@ -173,11 +175,12 @@ export const setArchetype = (archetype) => {
     nodeList[key].style.color = statUpdated;
   });
 
-  nodeList.saveBtn.removeAttribute("disabled");
-  nodeList.lockArchetype.setAttribute("disabled", "");
+  nodeList.printBtn.removeAttribute("disabled");
+  nodeList.displayArchetype.setAttribute("hidden", "");
 
   disableRollButtons();
   setSecondaryStats();
+  setImgArchetype(archetype.name, archetype);
 };
 
 export const disableRollButtons = () => {
@@ -185,4 +188,11 @@ export const disableRollButtons = () => {
   rerollBtn.forEach((btn) => {
     btn.setAttribute("disabled", "");
   });
+};
+
+export const setImgArchetype = (name, test) => {
+  const upperName = name[0].toUpperCase() + name.slice(1);
+
+  nodeList.archetypeName.innerHTML = upperName;
+  nodeList.archetypeImg.src = `./medias/archetypes/${name}.jpg`;
 };

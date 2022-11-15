@@ -2,27 +2,31 @@ import races from "./data/races.js";
 import archetypes from "./data/archetypes.js";
 import { getNode, newRow, setArchetype, setSecondaryStats } from "./utils.js";
 
-const btn = getNode("button");
-const saveBtn = getNode("#saveBtn");
+const generateBtn = getNode("button");
+const printBtn = getNode("#printBtn");
 const raceIs = getNode("#race");
 
-const archetypeNode = getNode("#displayArchetype");
+const displayArchetype = getNode("#displayArchetype");
 const lockArchetype = getNode("#lockArchetype");
 const selectedArchetype = getNode("#selectedArchetype");
+const archetypeImg = getNode("#archetypeImg");
+const archetypeName = getNode("#archetypeName");
 
-btn.addEventListener("click", () => {
+generateBtn.addEventListener("click", () => {
   // reset previous generation
   getNode("#tBodyPrimary").innerHTML = "";
-  saveBtn.setAttribute("disabled", "");
+  printBtn.setAttribute("disabled", "");
   lockArchetype.removeAttribute("disabled");
+  archetypeImg.src = "";
+  archetypeName.innerHTML = "";
 
   const checkedRaces = [];
   const raceList = document.querySelectorAll("input");
 
   raceList.forEach((race) => {
-    race.checked
-      ? checkedRaces.push(race.nextSibling.data.trim().toLowerCase())
-      : null;
+    if (race.checked) {
+      checkedRaces.push(race.nextSibling.data.trim().toLowerCase());
+    }
   });
 
   const rand = Math.floor(
@@ -46,7 +50,7 @@ btn.addEventListener("click", () => {
   }
 
   setSecondaryStats(special);
-  archetypeNode.removeAttribute("hidden");
+  displayArchetype.removeAttribute("hidden");
 });
 
 lockArchetype.addEventListener("click", () => {
@@ -54,7 +58,7 @@ lockArchetype.addEventListener("click", () => {
   setArchetype(archetype);
 });
 
-saveBtn.addEventListener("click", function () {
+printBtn.addEventListener("click", function () {
   html2canvas(document.querySelector("#capture"), {
     onrendered: function (canvas) {
       return Canvas2Image.saveAsPNG(canvas);

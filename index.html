@@ -72,7 +72,7 @@
       </div>
 
       <br><br>
-      <button  id="saveBtn" class="button is-default is-primary" disabled>Sauvegarder</button>
+      <button  id="printBtn" class="button is-default is-primary" disabled>Sauvegarder</button>
     </div>
 
     <div class="column" id="capture">
@@ -80,7 +80,7 @@
       <div class="columns">
         
         <!-- Column primary stats -->
-        <div class="column is-two-thirds">
+        <div class="column is-two-thirds is-align-content-space-between" style="display: grid">
           <table class="table is-striped">
             <thead>
               <tr>
@@ -96,8 +96,7 @@
 
         <!-- Column secondary stats   -->
         <div class="column">
-          <div id="archetype"></div>
-          <table class="table is-striped">
+          <table class="table is-striped" style="margin: auto">
             <thead>
               <tr>
                 <th>Attributs</th>
@@ -127,6 +126,11 @@
               </tr>
             </tbody>
           </table>
+          
+          <div class="column has-text-centered" style="margin-top: 25px">
+            <img id="archetypeImg" src=""  style="width: 150px">
+            <p id="archetypeName"></p>
+          </div>
         </div>
       </div>
     </div>
