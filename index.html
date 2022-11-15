@@ -15,9 +15,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma-tooltip/1.2.0/bulma-tooltip.min.css"
-    integrity="sha512-eQONsEIU2JzPniggWsgCyYoASC8x8nS0w6+e5LQZbdvWzDUVfUh+vQZFmB2Ykj5uqGDIsY7tSUCdTxImWBShYg=="
-    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  integrity="sha512-eQONsEIU2JzPniggWsgCyYoASC8x8nS0w6+e5LQZbdvWzDUVfUh+vQZFmB2Ykj5uqGDIsY7tSUCdTxImWBShYg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  <link rel="stylesheet" href="./style.css">
   <link rel="icon" type="image/x-icon" href="./medias/dice.png" />
 
   <title>Genetateur brigandyne v2</title>
@@ -30,12 +31,20 @@
     <!-- Column button -->
     <div class="column is-one-fifth">
       <button class="button is-warning">Générer</button><br><br>
-      <label class="checkbox">
+
+      <label>
         <input type="checkbox"> Humain</input><br>
-        <input type="checkbox"> Nain</input><br>
-        <input type="checkbox"> Elfe</input><br>
-        <input type="checkbox"> Halfelin</input><br>
       </label>
+      <label>
+        <input type="checkbox"> Nain</input><br>
+      </label>
+      <label>
+        <input type="checkbox"> Elfe</input><br>
+      </label>
+      <label>
+        <input type="checkbox"> Halfelin</input><br>
+      </label>  
+      
       <br><br>
 
       <div hidden id="displayArchetype">
