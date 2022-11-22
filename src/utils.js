@@ -123,7 +123,7 @@ export const setArchetype = (archetype) => {
   archetype.bonus.forEach((a) => {
     const key = Object.keys(a)[0];
     const statUpdated = a[key] > 0 ? "#4C8B55" : "red";
-    console.log(key);
+
     nodeList[key].innerHTML = Number(nodeList[key].innerHTML) + a[key];
     nodeList[key].style.color = statUpdated;
   });
@@ -131,7 +131,6 @@ export const setArchetype = (archetype) => {
   archetype.random?.forEach((rand) => {
     const { sum } = rollDice(1, 2, true);
     const key = Object.keys(rand[sum])[0];
-
     const statUpdated = rand[sum][key] > 0 ? "#4C8B55" : "red";
 
     nodeList[key].innerHTML = Number(nodeList[key].innerHTML) + rand[sum][key];
