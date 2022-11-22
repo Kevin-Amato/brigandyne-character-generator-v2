@@ -1,21 +1,11 @@
-import races from "./data/races.js";
-import archetypes from "./data/archetypes.js";
-import { getNode, newRow, setArchetype, setSecondaryStats } from "./utils.js";
+import races from "./data/races/list.js";
+import archetypes from "./data/archetypes/list.js";
+import { newRow, setArchetype, setSecondaryStats } from "./src/utils.js";
+import nodeList from "./src/nodeList.js";
 
-const generateBtn = getNode("button");
-const printBtn = getNode("#printBtn");
-const raceIs = getNode("#race");
-
-const displayArchetype = getNode("#displayArchetype");
-const lockArchetype = getNode("#lockArchetype");
-const selectedArchetype = getNode("#selectedArchetype");
-const archetypeImg = getNode("#archetypeImg");
-const archetypeName = getNode("#archetypeName");
-const archetypeDescription = getNode("#archetypeDescription");
-
-generateBtn.addEventListener("click", () => {
+nodeList.generateButton.addEventListener("click", () => {
   // reset previous generation
-  getNode("#tBodyPrimary").innerHTML = "";
+  nodeList.tBodyPrimary.innerHTML = "";
 
   printBtn.setAttribute("disabled", "");
   lockArchetype.removeAttribute("disabled");
@@ -43,9 +33,9 @@ generateBtn.addEventListener("click", () => {
   const { race, stats, special } =
     checkedRaces.length <= 0 ? races[rand] : checkedRaceList[rand];
 
-  raceIs.innerHTML = race;
-  raceIs.style.fontWeight = 900;
-  raceIs.style.textDecoration = "underline #ffdd57";
+  nodeList.race.innerHTML = race;
+  nodeList.race.style.fontWeight = 900;
+  nodeList.race.style.textDecoration = "underline #ffdd57";
 
   const storedChar = [];
 
