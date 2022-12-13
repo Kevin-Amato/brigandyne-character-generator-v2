@@ -64,7 +64,7 @@ lockArchetype.addEventListener("click", () => {
 
 printBtn.addEventListener("click", function () {
   const character = contructCharacter();
-  fetch("https://lms-mns.onrender.com/character", {
+  fetch("https://lms-mns.onrender.com/characters", {
     method: "POST",
     body: character || {},
   });
