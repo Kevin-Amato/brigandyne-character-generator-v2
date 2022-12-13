@@ -63,9 +63,25 @@ lockArchetype.addEventListener("click", () => {
 });
 
 printBtn.addEventListener("click", function () {
+  const character = contructCharacter();
+  fetch("https://lms-mns.onrender.com/character", {
+    method: "POST",
+    body: character || {},
+  });
   html2canvas(document.querySelector("#capture"), {
     onrendered: function (canvas) {
       return Canvas2Image.saveAsPNG(canvas);
     },
   });
 });
+
+function contructCharacter() {
+  const items = { ...localStorage };
+  const character = [];
+
+  for (const item in items) {
+    character.push(JSON.parse(items[item]));
+  }
+
+  return character;
+}

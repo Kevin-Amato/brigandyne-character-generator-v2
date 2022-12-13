@@ -4,8 +4,10 @@ export const getNode = (attribute) => {
   return document.querySelector(attribute);
 };
 
-export const newRow = (raceStats) => {
+export const newRow = (stats) => {
   const roll = rollDice(2, 10);
+  stats.roll = roll;
+  stats.total = roll.sum + stats.value;
 
   const tBodyPrimary = getNode("#tBodyPrimary");
   const tr = document.createElement("tr");
@@ -17,23 +19,22 @@ export const newRow = (raceStats) => {
 
   const btn = document.createElement("button");
 
-  td1.innerHTML = raceStats.name;
-  td2.innerHTML = raceStats.abr;
-  td3.innerHTML =
-    raceStats.name !== "Magie" ? raceStats.value + roll.sum : raceStats.value;
-  td3.setAttribute("id", raceStats.name.toLowerCase());
+  td1.innerText = stats.name;
+  td2.innerText = stats.abr;
+  td3.innerText = stats.name !== "Magie" ? stats.value + roll.sum : stats.value;
+  td3.setAttribute("id", stats.id);
 
   btn.className = "button is-small is-outlined";
   btn.setAttribute("id", "rerollBtn");
-  btn.innerHTML = "roll";
+  btn.innerText = "roll";
   btn.addEventListener("click", () => {
-    resetRow(td3, raceStats);
+    resetRow(td3, stats);
     setSecondaryStats();
   });
 
-  if (raceStats.name !== "Magie") {
+  if (stats.id !== "magie") {
     td4.appendChild(btn);
-    addTooltip(raceStats, td3, roll);
+    addTooltip(stats, td3, roll);
   }
 
   tr.appendChild(td1);
@@ -41,6 +42,8 @@ export const newRow = (raceStats) => {
   tr.appendChild(td3);
   tr.appendChild(td4);
   tBodyPrimary.appendChild(tr);
+
+  setItemStorage(stats.id, stats);
 };
 
 export const rollDice = (nbrOfDice, valueOfDice, isMinZero = false) => {
@@ -56,18 +59,22 @@ export const rollDice = (nbrOfDice, valueOfDice, isMinZero = false) => {
   return score;
 };
 
-export const resetRow = (row, raceStats) => {
+export const resetRow = (row, stats) => {
   const roll = rollDice(2, 10);
-  row.innerHTML = roll.sum + raceStats.value;
-  addTooltip(raceStats, row, roll);
+  stats.roll = roll;
+  stats.total = roll.sum + stats.value;
+  row.innerText = stats.total;
+
+  setItemStorage(stats.id, stats);
+  addTooltip(stats, row, roll);
 };
 
-export const addTooltip = (raceStats, node, roll) => {
+export const addTooltip = (stats, node, roll) => {
   node.style.textDecoration = "underline dotted lightgrey 2px";
   node.style.fontWeight = "bold";
   node.setAttribute(
     "data-tooltip",
-    `Score de base : ${raceStats.value}
+    `Score de base : ${stats.value}
       Résultat dé 1 : ${roll.dice[0]}
       Résultat dé 2 : ${roll.dice[1]}`
   );
@@ -81,21 +88,21 @@ function setnodeList() {
   // primary stats
   nodeList.combat = getNode("#combat");
   nodeList.connaissances = getNode("#connaissances");
-  nodeList.discretion = getNode("#discrétion");
+  nodeList.discretion = getNode("#discretion");
   nodeList.endurance = getNode("#endurance");
   nodeList.force = getNode("#force");
-  nodeList.habilite = getNode("#habilité");
+  nodeList.habilite = getNode("#habilite");
   nodeList.magie = getNode("#magie");
   nodeList.mouvement = getNode("#mouvement");
   nodeList.perception = getNode("#perception");
-  nodeList.sociabilite = getNode("#sociabilité");
+  nodeList.sociabilite = getNode("#sociabilite");
   nodeList.survie = getNode("#survie");
   nodeList.tir = getNode("#tir");
-  nodeList.volonte = getNode("#volonté");
+  nodeList.volonte = getNode("#volonte");
 
   // secondary stats
   nodeList.initiative = getNode("#initiative");
-  nodeList.vitalité = getNode("#vitalité");
+  nodeList.vitalite = getNode("#vitalite");
   nodeList.sangfroid = getNode("#sangfroid");
   nodeList.destin = getNode("#destin");
 
@@ -113,9 +120,9 @@ export const setSecondaryStats = (special = []) => {
   const { stats } = special;
 
   stats?.forEach((stat) => {
-    let newValue = parseInt(nodeList[stat.name].innerHTML);
+    let newValue = parseInt(nodeList[stat.name].innerText);
     newValue += stat.value;
-    nodeList[stat.name].innerHTML = newValue;
+    nodeList[stat.name].innerText = newValue;
   });
 
   setInitiative();
@@ -128,32 +135,44 @@ export const calculateIndice = (number) => {
   return +String(number)[0];
 };
 
-export const setInitiative = () => {
-  nodeList.initiative.innerHTML =
-    calculateIndice(nodeList.combat.innerHTML) +
-    calculateIndice(nodeList.mouvement.innerHTML) +
-    calculateIndice(nodeList.perception.innerHTML);
+export const setInitiative = (competence) => {
+  const cmb = getItemStorage("combat");
+  const mouv = getItemStorage("mouvement");
+  const per = getItemStorage("perception");
+
+  nodeList.initiative.innerText =
+    calculateIndice(cmb.total) +
+    calculateIndice(mouv.total) +
+    calculateIndice(per.total);
 };
 
-export const setVitalite = () => {
-  nodeList.vitalité.innerHTML =
-    Math.floor(nodeList.force.innerHTML / 5) +
-    Math.floor(nodeList.endurance.innerHTML / 5) +
-    calculateIndice(nodeList.volonte.innerHTML);
+export const setVitalite = (competence) => {
+  const force = getItemStorage("force");
+  const end = getItemStorage("endurance");
+  const vol = getItemStorage("volonte");
+
+  nodeList.vitalite.innerText =
+    Math.floor(force.total / 5) +
+    Math.floor(end.total / 5) +
+    calculateIndice(vol.total);
 };
 
-export const setSangFroid = () => {
-  nodeList.sangfroid.innerHTML =
-    Math.floor(nodeList.volonte.innerHTML / 5) +
-    Math.floor(nodeList.connaissances.innerHTML / 5) +
-    calculateIndice(nodeList.combat.innerHTML);
+export const setSangFroid = (competence) => {
+  const cmb = getItemStorage("combat");
+  const vol = getItemStorage("volonte");
+  const con = getItemStorage("connaissances");
+
+  nodeList.sangfroid.innerText =
+    Math.floor(cmb.total / 5) +
+    Math.floor(vol.total / 5) +
+    calculateIndice(con.total);
 };
 
-export const setDestin = () => {
-  if (race.innerHTML === "Humain" || race.innerHTML === "Halfelin") {
-    nodeList.destin.innerHTML = 3;
+export const setDestin = (competence) => {
+  if (race.innerText === "Humain" || race.innerText === "Halfelin") {
+    nodeList.destin.innerText = 3;
   } else {
-    nodeList.destin.innerHTML = 2;
+    nodeList.destin.innerText = 2;
   }
 };
 
@@ -162,7 +181,7 @@ export const setArchetype = (archetype) => {
     const key = Object.keys(a)[0];
     const statUpdated = a[key] > 0 ? "#4C8B55" : "red";
 
-    nodeList[key].innerHTML = Number(nodeList[key].innerHTML) + a[key];
+    nodeList[key].innerText = Number(nodeList[key].innerText) + a[key];
     nodeList[key].style.color = statUpdated;
   });
 
@@ -172,7 +191,7 @@ export const setArchetype = (archetype) => {
 
     const statUpdated = rand[sum][key] > 0 ? "#4C8B55" : "red";
 
-    nodeList[key].innerHTML = Number(nodeList[key].innerHTML) + rand[sum][key];
+    nodeList[key].innerText = Number(nodeList[key].innerText) + rand[sum][key];
     nodeList[key].style.color = statUpdated;
   });
 
@@ -184,19 +203,44 @@ export const setArchetype = (archetype) => {
   setImgArchetype(archetype);
 };
 
-export const disableRollButtons = () => {
+const disableRollButtons = () => {
   const rerollBtn = document.querySelectorAll("#rerollBtn");
   rerollBtn.forEach((btn) => {
     btn.setAttribute("disabled", "");
   });
 };
 
-export const setImgArchetype = (archetype) => {
+const setImgArchetype = (archetype) => {
   const { name, description } = archetype;
   const upperName = name[0].toUpperCase() + name.slice(1);
 
-  nodeList.archetypeName.innerHTML = upperName;
-  nodeList.archetypeDescription.innerHTML = description;
+  nodeList.archetypeName.innerText = upperName;
+  nodeList.archetypeDescription.innerText = description;
   nodeList.archetypeDescription.style.fontStyle = "italic";
   nodeList.archetypeImg.src = `./medias/archetypes/${name}.jpg`;
+};
+
+/**
+ *
+ * @param {String || Array} keys
+ * @returns json object
+ */
+const getItemStorage = (keys) => {
+  if (Array.isArray(keys)) {
+    const output = [];
+
+    keys.forEach((key) => {
+      output.push(JSON.parse(localStorage.getItem(key)));
+    });
+
+    return output;
+  }
+
+  return JSON.parse(localStorage.getItem(keys));
+};
+
+const setItemStorage = (key, data) => {
+  const stringifiedData = JSON.stringify(data);
+
+  localStorage.setItem(key, stringifiedData);
 };
