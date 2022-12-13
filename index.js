@@ -66,8 +66,12 @@ printBtn.addEventListener("click", function () {
   const character = contructCharacter();
   fetch("https://lms-mns.onrender.com/characters", {
     method: "POST",
-    body: character || {},
+    headers: {
+      "Content-Type": "application/json;charset=utf-8",
+    },
+    body: JSON.stringify(character),
   });
+
   html2canvas(document.querySelector("#capture"), {
     onrendered: function (canvas) {
       return Canvas2Image.saveAsPNG(canvas);
