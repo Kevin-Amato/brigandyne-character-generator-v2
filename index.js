@@ -64,10 +64,9 @@ lockArchetype.addEventListener("click", () => {
 
 printBtn.addEventListener("click", function () {
   const character = contructCharacter();
-  fetch("https://lms-mns.onrender.com/character", {
-    method: "POST",
-    body: character || {},
-  });
+
+  send(character);
+
   html2canvas(document.querySelector("#capture"), {
     onrendered: function (canvas) {
       return Canvas2Image.saveAsPNG(canvas);
@@ -84,4 +83,18 @@ function contructCharacter() {
   }
 
   return character;
+}
+
+function send(body) {
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  const options = {
+    method: "POST",
+    headers,
+    mode: "cors",
+    body: JSON.stringify(body),
+  };
+
+  fetch("https://eokly6lkkwu9p4g.m.pipedream.net", options);
 }
