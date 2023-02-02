@@ -64,7 +64,6 @@ lockArchetype.addEventListener("click", () => {
 
 printBtn.addEventListener("click", function () {
   const character = contructCharacter();
-
   send(character);
 
   html2canvas(document.querySelector("#capture"), {
