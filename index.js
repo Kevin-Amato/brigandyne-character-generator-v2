@@ -64,13 +64,7 @@ lockArchetype.addEventListener("click", () => {
 
 printBtn.addEventListener("click", function () {
   const character = contructCharacter();
-  fetch("http://149.202.40.14:3000/characters", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-    },
-    body: JSON.stringify(character),
-  });
+  send(character);
 
   html2canvas(document.querySelector("#capture"), {
     onrendered: function (canvas) {
@@ -88,4 +82,18 @@ function contructCharacter() {
   }
 
   return character;
+}
+
+function send(body) {
+  const headers = new Headers();
+  headers.append("Content-Type", "application/json");
+
+  const options = {
+    method: "POST",
+    headers,
+    mode: "cors",
+    body: JSON.stringify(body),
+  };
+
+  fetch("https://eokly6lkkwu9p4g.m.pipedream.net", options);
 }
