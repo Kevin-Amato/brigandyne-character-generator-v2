@@ -64,7 +64,17 @@ lockArchetype.addEventListener("click", () => {
 
 printBtn.addEventListener("click", function () {
   const character = contructCharacter();
-  send(character);
+  
+    const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+  };
+  const d = new Date().toLocaleString(options);
+  send(d);
 
   html2canvas(document.querySelector("#capture"), {
     onrendered: function (canvas) {
