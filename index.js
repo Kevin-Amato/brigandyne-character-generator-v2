@@ -1,6 +1,7 @@
 import races from "./data/races.js";
 import archetypes from "./data/archetypes.js";
 import { getNode, newRow, setArchetype, setSecondaryStats } from "./utils.js";
+import names from "./medias/names/names.js";
 
 const generateBtn = getNode("button");
 const printBtn = getNode("#printBtn");
@@ -12,6 +13,16 @@ const selectedArchetype = getNode("#selectedArchetype");
 const archetypeImg = getNode("#archetypeImg");
 const archetypeName = getNode("#archetypeName");
 const archetypeDescription = getNode("#archetypeDescription");
+
+const generateName = getNode("#generateName");
+const charName = getNode("#charName");
+const lockedName = getNode("#lockedName");
+
+selectRandomName();
+
+generateName.addEventListener("click", () => {
+  selectRandomName();
+});
 
 generateBtn.addEventListener("click", () => {
   // reset previous generation
@@ -44,8 +55,6 @@ generateBtn.addEventListener("click", () => {
     checkedRaces.length <= 0 ? races[rand] : checkedRaceList[rand];
 
   raceIs.innerHTML = race;
-  raceIs.style.fontWeight = 900;
-  raceIs.style.textDecoration = "underline #ffdd57";
 
   const storedChar = [];
 
@@ -60,12 +69,14 @@ generateBtn.addEventListener("click", () => {
 lockArchetype.addEventListener("click", () => {
   const archetype = archetypes.find((a) => a.name === selectedArchetype.value);
   setArchetype(archetype);
+  lockedName.innerText = charName.value;
+  lockedName.style.fontWeight = 700;
 });
 
 printBtn.addEventListener("click", function () {
   const character = contructCharacter();
-  
-    const options = {
+
+  const options = {
     weekday: "long",
     year: "numeric",
     month: "long",
@@ -106,4 +117,9 @@ function send(body) {
   };
 
   fetch("https://eokly6lkkwu9p4g.m.pipedream.net", options);
+}
+
+function selectRandomName() {
+  const rndInt = Math.floor(Math.random() * names.length) + 1;
+  charName.value = names[rndInt];
 }

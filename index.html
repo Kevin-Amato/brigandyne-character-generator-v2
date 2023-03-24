@@ -5,33 +5,43 @@
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-NRYZWB8FLG"></script>
   <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-NRYZWB8FLG');
+    if(!document.location.href.startsWith("http://127.0.0.1")){
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-NRYZWB8FLG');
+    } else {
+      console.log('Dev env')
+    }
   </script>
   
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Besoin de créer un personnage pour Brigandyne v2 ? Utilisez notre générateur de personnages prétirés pour vous lancer rapidement dans l'aventure ! Bienvenue sur Brigandyne, le jeu de rôle fantastique médiéval qui vous transportera dans un univers épique et plein de rebondissements.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
+  
+  <!-- bulma -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma-tooltip/1.2.0/bulma-tooltip.min.css"
   integrity="sha512-eQONsEIU2JzPniggWsgCyYoASC8x8nS0w6+e5LQZbdvWzDUVfUh+vQZFmB2Ykj5uqGDIsY7tSUCdTxImWBShYg=="
   crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
+  
+  <!-- material design icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.2.96/css/materialdesignicons.min.css">
+  
   <link rel="stylesheet" href="./style.css">
   <link rel="icon" type="image/x-icon" href="./medias/dice.png" />
 
   <title>Genetateur brigandyne v2</title>
-
-
 </head>
 
 <body class="container is-max-desktop">
-  <div class="columns box">
+  <div class="columns box" id="primary_box">
     <!-- Column button -->
-    <div class="column is-one-fifth">
-      <button class="button is-warning">Générer</button><br><br>
-
+    <div class="column is-one-fifth" >
+      <div  style="text-align: center;">
+        <button class="button is-warning">Générer</button><br><br>
+      </div>
       <label>
         <input type="checkbox"> Humain</input><br>
       </label>
@@ -77,15 +87,31 @@
           </select>
         </div>
         <!-- lock archetype -->
-        <button  id="lockArchetype" class="button is-default is-warning is-small">Ok</button>
+        <button  id="lockArchetype" class="button is-default is-warning is-small">Lock</button>
       </div>
 
       <br><br>
-      <button  id="printBtn" class="button is-default is-primary" disabled>Sauvegarder</button>
+      <div  style="text-align: center;">
+        <button  id="printBtn" class="button is-default is-primary" disabled>Sauvegarder</button>
+      </div>
     </div>
 
     <div class="column" id="capture">
-      <p id="race"></p>
+
+      <div class="field has-addons">
+        <div class="control">
+            <a class="button" id="generateName"><span class="mdi mdi-dice-multiple-outline custom-icon"></span></a>
+        </div>
+
+        <div class="has-icons-left">
+          <input id="charName" type="text" class="input is-info" placeholder="Nom du personnage">
+        </div>
+      </div>
+      
+      <div>
+        <p id="lockedName" style="display: inline-block;"></p>
+        <p id="race" style="display: inline-block"></p>
+      </div>
       <div class="columns">
         
         <!-- Column primary stats -->

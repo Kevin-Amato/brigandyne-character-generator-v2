@@ -1,0 +1,5 @@
+- Google analytics désactivé en mode dév
+- Ajout de noms pour les personnages
+- Ajout d'un font d'écran à la personnages
+- Changement de l'affichage du bouton reroll de stats
+- Ajout d'un margin en haut de l'écran
