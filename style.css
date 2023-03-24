@@ -1,0 +1,11 @@
+#primary_box {
+    margin: 10px
+}
+
+html {
+    background-image: url(./medias/background_image.jpeg);
+}
+
+.custom-icon {
+  font-size: 1.4em; /* définit la taille de la police à 2 fois la taille normale */
+}

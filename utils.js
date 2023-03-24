@@ -24,13 +24,15 @@ export const newRow = (stats) => {
   td3.innerText = stats.name !== "Magie" ? stats.value + roll.sum : stats.value;
   td3.setAttribute("id", stats.id);
 
-  btn.className = "button is-small is-outlined";
+  btn.className = "mdi mdi-dice-multiple-outline custom-icon";
   btn.setAttribute("id", "rerollBtn");
-  btn.innerText = "roll";
   btn.addEventListener("click", () => {
     resetRow(td3, stats);
     setSecondaryStats();
   });
+
+  btn.style.backgroundColor = "white";
+  btn.style.borderRadius = "6px";
 
   if (stats.id !== "magie") {
     td4.appendChild(btn);
