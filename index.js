@@ -1,7 +1,7 @@
 import races from "./data/races.js";
 import archetypes from "./data/archetypes.js";
 import { getNode, newRow, setArchetype, setSecondaryStats } from "./utils.js";
-import names from "./medias/names/names.js";
+import names from "./data/names.js";
 
 const generateBtn = getNode("button");
 const printBtn = getNode("#printBtn");
