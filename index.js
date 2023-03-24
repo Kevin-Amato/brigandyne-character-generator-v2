@@ -18,8 +18,6 @@ const generateName = getNode("#generateName");
 const charName = getNode("#charName");
 const lockedName = getNode("#lockedName");
 
-selectRandomName();
-
 generateName.addEventListener("click", () => {
   selectRandomName();
 });
@@ -71,6 +69,8 @@ lockArchetype.addEventListener("click", () => {
   setArchetype(archetype);
   lockedName.innerText = charName.value;
   lockedName.style.fontWeight = 700;
+
+  charName.value = "";
 });
 
 printBtn.addEventListener("click", function () {

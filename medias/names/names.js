@@ -195,4 +195,6 @@ export default [
   "Côme",
   "Léon",
   "Mortimer",
+  "Loris Bohnson",
+  "Lucien Marcheciel",
 ];
