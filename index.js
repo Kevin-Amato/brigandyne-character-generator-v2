@@ -23,6 +23,7 @@ generateName.addEventListener("click", () => {
 });
 
 generateBtn.addEventListener("click", () => {
+  lockedName.innerText = "";
   // reset previous generation
   getNode("#tBodyPrimary").innerHTML = "";
 
