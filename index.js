@@ -67,9 +67,13 @@ generateBtn.addEventListener("click", () => {
 lockArchetype.addEventListener("click", () => {
   const archetype = archetypes.find((a) => a.name === selectedArchetype.value);
   setArchetype(archetype);
+
+  if (charName.value.length === 0) {
+    selectRandomName();
+  }
+
   lockedName.innerText = charName.value;
   lockedName.style.fontWeight = 700;
-
   charName.value = "";
 });
 
