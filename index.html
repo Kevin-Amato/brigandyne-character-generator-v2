@@ -96,79 +96,83 @@
       </div>
     </div>
 
-    <div class="column" id="capture">
+    <div class="column">
 
       <div class="field has-addons">
         <div class="control ">
-            <a class="button" id="generateName"><span class="mdi mdi-dice-multiple-outline custom-icon"></span></a>
+          <a class="button" id="generateName"><span class="mdi mdi-dice-multiple-outline custom-icon"></span></a>
         </div>
-
+        
         <div class="has-icons-left">
           <input id="charName" type="text" class="input is-info" placeholder="Nom du personnage">
         </div>
       </div>
       
-      <div>
-        <p id="lockedName" style="display: inline-block;"></p>
-        <p id="race" style="display: inline-block"></p>
-      </div>
-      <div class="columns">
+      <div id="capture">
         
-        <!-- Column primary stats -->
-        <div class="column is-two-thirds is-align-content-space-between" style="display: grid">
-          <table class="table is-striped">
-            <thead>
-              <tr>
-                <th id="competences">Compétences</th>
-                <th id="modif">Abréviations</th>
-                <th id="score">Score</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="tBodyPrimary"></tbody>
-          </table>
+        <div>
+          <p id="lockedName" style="display: inline-block;"></p>
+          <p id="race" style="display: inline-block"></p>
         </div>
 
-        <!-- Column secondary stats   -->
-        <div class="column">
-          <table class="table is-striped" style="margin: auto">
-            <thead>
-              <tr>
-                <th>Attributs</th>
-                <th>Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Initiative</td>
-                <td id="initiative">
-              </tr>
-              </tr>
-              <tr>
-                <td>Vitalité</td>
-                <td id="vitalite">
-              </tr>
-              </tr>
-              <tr>
-                <td>Sang-froid</td>
-                <td id="sangfroid">
-              </tr>
-              </tr>
-              <tr>
-                <td>Destin</td>
-                <td id="destin">
-              </tr>
-              </tr>
-            </tbody>
-          </table>
-          
-          <div class="column has-text-centered" style="margin-top: 25px">
-            <img id="archetypeImg" src=""  style="width: 150px">
-            <p id="archetypeName"></p>
-            <br>
-            <p id="archetypeDescription"></p>
+        <div class="columns">
+          <!-- Column primary stats -->
+          <div class="column is-two-thirds is-align-content-space-between" style="display: grid">
+            <table class="table is-striped">
+              <thead>
+                <tr>
+                  <th id="competences">Compétences</th>
+                  <th id="modif">Abréviations</th>
+                  <th id="score">Score</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="tBodyPrimary"></tbody>
+            </table>
+          </div>
+
+          <!-- Column secondary stats   -->
+          <div class="column">
+            <table class="table is-striped" style="margin: auto">
+              <thead>
+                <tr>
+                  <th>Attributs</th>
+                  <th>Score</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Initiative</td>
+                  <td id="initiative">
+                </tr>
+                </tr>
+                <tr>
+                  <td>Vitalité</td>
+                  <td id="vitalite">
+                </tr>
+                </tr>
+                <tr>
+                  <td>Sang-froid</td>
+                  <td id="sangfroid">
+                </tr>
+                </tr>
+                <tr>
+                  <td>Destin</td>
+                  <td id="destin">
+                </tr>
+                </tr>
+              </tbody>
+            </table>
+            
+            <div class="column has-text-centered" style="margin-top: 25px">
+              <img id="archetypeImg" src=""  style="width: 150px">
+              <p id="archetypeName"></p>
+              <br>
+              <p id="archetypeDescription"></p>
+            </div>
           </div>
         </div>
+      
       </div>
     </div>
   </div>
