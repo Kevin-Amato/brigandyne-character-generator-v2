@@ -83,7 +83,7 @@ export const addTooltip = (stats, node, roll) => {
   node.className = "has-tooltip-right";
 };
 
-function setnodeList() {
+function setNodeList() {
   // display race name
   nodeList.race = getNode("#race");
 
@@ -117,7 +117,7 @@ function setnodeList() {
 }
 
 export const setSecondaryStats = (special = []) => {
-  setnodeList();
+  setNodeList();
 
   const { stats } = special;
 
@@ -246,3 +246,5 @@ const setItemStorage = (key, data) => {
 
   localStorage.setItem(key, stringifiedData);
 };
+
+class CharactereClass {}
