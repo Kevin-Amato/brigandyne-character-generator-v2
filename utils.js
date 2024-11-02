@@ -122,7 +122,7 @@ export const setSecondaryStats = (special = []) => {
   const { stats } = special;
 
   stats?.forEach((stat) => {
-    let newValue = parseInt(nodeList[stat.name].innerText);
+    let newValue = +nodeList[stat.name].innerText;
     newValue += stat.value;
     nodeList[stat.name].innerText = newValue;
   });
@@ -246,5 +246,3 @@ const setItemStorage = (key, data) => {
 
   localStorage.setItem(key, stringifiedData);
 };
-
-class CharactereClass {}
