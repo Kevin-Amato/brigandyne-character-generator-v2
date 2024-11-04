@@ -1,7 +1,7 @@
-import races from "./data/races.js";
 import archetypes from "./data/archetypes.js";
-import { getNode, newRow, setArchetype, setSecondaryStats } from "./utils.js";
 import names from "./data/names.js";
+import races from "./data/races.js";
+import { getNode, newRow, setArchetype, setSecondaryStats } from "./utils.js";
 
 const generateBtn = getNode("button");
 const printBtn = getNode("#printBtn");
@@ -89,8 +89,6 @@ printBtn.addEventListener("click", function () {
     hour: "numeric",
     minute: "numeric",
   };
-  const d = new Date().toLocaleString(options);
-  send(d);
 
   html2canvas(document.querySelector("#capture"), {
     onrendered: function (canvas) {
@@ -108,20 +106,6 @@ function contructCharacter() {
   }
 
   return character;
-}
-
-function send(body) {
-  const headers = new Headers();
-  headers.append("Content-Type", "application/json");
-
-  const options = {
-    method: "POST",
-    headers,
-    mode: "cors",
-    body: JSON.stringify(body),
-  };
-
-  fetch("https://eokly6lkkwu9p4g.m.pipedream.net", options);
 }
 
 function selectRandomName() {

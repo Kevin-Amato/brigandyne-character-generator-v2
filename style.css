@@ -1,9 +1,5 @@
 #primary_box {
-    margin: 10px
-}
-
-html {
-    background-image: url(./medias/background_image.jpeg);
+  margin: 10px;
 }
 
 .custom-icon {

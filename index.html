@@ -2,21 +2,6 @@
 <html lang="en">
 
 <head>  
-  <!-- Umami -->
-  <script defer src="https://analytics.eu.umami.is/script.js" data-website-id="a65aa44b-cfc3-4c43-84e2-7ba632b28e75"></script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NRYZWB8FLG"></script>
-  <script>
-    if(!document.location.href.startsWith("http://127.0.0.1")){
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-NRYZWB8FLG');
-    } else {
-      console.log('Dev env')
-    }
-  </script>
-  
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="description" content="Besoin de créer un personnage pour Brigandyne v2 ? Utilisez notre générateur de personnages prétirés pour vous lancer rapidement dans l'aventure ! Bienvenue sur Brigandyne, le jeu de rôle fantastique médiéval qui vous transportera dans un univers épique et plein de rebondissements.">
@@ -35,6 +20,18 @@
   <link rel="icon" type="image/x-icon" href="./medias/dice.png" />
 
   <title>Générateur de personnage brigandyne v2</title>
+
+  <script>
+    // Vérifier si on n'est pas en local
+    if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+      // Charger Umami uniquement si l'hôte n'est pas local
+      const umamiScript = document.createElement('script');
+      umamiScript.defer = true;
+      umamiScript.src = "https://analytics.eu.umami.is/script.js";
+      umamiScript.setAttribute('data-website-id', 'a65aa44b-cfc3-4c43-84e2-7ba632b28e75');
+      document.head.appendChild(umamiScript);
+    }
+  </script>
 </head>
 
 <body class="container is-max-desktop">
@@ -45,16 +42,16 @@
         <button class="button is-warning">Générer</button><br><br>
       </div>
       <label>
-        <input type="checkbox"> Humain</input><br>
+        <input type="checkbox" checked> Humain</input><br>
       </label>
       <label>
-        <input type="checkbox"> Nain</input><br>
+        <input type="checkbox" checked> Nain</input><br>
       </label>
       <label>
-        <input type="checkbox"> Elfe</input><br>
+        <input type="checkbox" checked> Elfe</input><br>
       </label>
       <label>
-        <input type="checkbox"> Halfelin</input><br>
+        <input type="checkbox" checked> Halfelin</input><br>
       </label>  
       
       <br><br>

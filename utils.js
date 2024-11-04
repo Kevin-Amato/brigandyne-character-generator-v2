@@ -83,7 +83,7 @@ export const addTooltip = (stats, node, roll) => {
   node.className = "has-tooltip-right";
 };
 
-function setnodeList() {
+function setNodeList() {
   // display race name
   nodeList.race = getNode("#race");
 
@@ -117,12 +117,12 @@ function setnodeList() {
 }
 
 export const setSecondaryStats = (special = []) => {
-  setnodeList();
+  setNodeList();
 
   const { stats } = special;
 
   stats?.forEach((stat) => {
-    let newValue = parseInt(nodeList[stat.name].innerText);
+    let newValue = +nodeList[stat.name].innerText;
     newValue += stat.value;
     nodeList[stat.name].innerText = newValue;
   });
