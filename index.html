@@ -7,7 +7,7 @@
       if (!document.location.href.startsWith("http://127.0.0.1")) {
         var script = document.createElement("script");
         script.src = "https://analytics.eu.umami.is/script.js";
-        script.defer = true;
+        script.defer = "true";
         script.setAttribute("data-website-id", "a65aa44b-cfc3-4c43-84e2-7ba632b28e75");
         document.head.appendChild(script);
       } else {
