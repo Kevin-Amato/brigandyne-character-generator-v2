@@ -3,17 +3,19 @@
 
 <head>
   <script>
-    if (!document.location.href.startsWith("http://127.0.0.1")) {
-      var script = document.createElement("script");
-      script.src = "https://analytics.eu.umami.is/script.js";
-      script.defer = true;
-      script.setAttribute("data-website-id", "a65aa44b-cfc3-4c43-84e2-7ba632b28e75");
-      document.head.appendChild(script);
-    } else {
-      console.log("Dev env - Umami désactivé");
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!document.location.href.startsWith("http://127.0.0.1")) {
+        var script = document.createElement("script");
+        script.src = "https://analytics.eu.umami.is/script.js";
+        script.defer = true;
+        script.setAttribute("data-website-id", "a65aa44b-cfc3-4c43-84e2-7ba632b28e75");
+        document.head.appendChild(script);
+      } else {
+        console.log("Dev env - Umami désactivé");
+      }
+    });
   </script>
-
+ 
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="description" content="Besoin de créer un personnage pour Brigandyne v2 ? Utilisez notre générateur de personnages prétirés pour vous lancer rapidement dans l'aventure ! Bienvenue sur Brigandyne, le jeu de rôle fantastique médiéval qui vous transportera dans un univers épique et plein de rebondissements.">
