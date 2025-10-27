@@ -112,3 +112,29 @@ function selectRandomName() {
   const rndInt = Math.floor(Math.random() * names.length) + 1;
   charName.value = names[rndInt];
 }
+
+const genSection = getNode("#generator");
+const contactSection = getNode("#contact");
+const genLink = document.querySelector('a[href="#generate"]');
+const contactLink = document.querySelector('a[href="#contact"]');
+
+genSection.style.display = "block";
+contactSection.style.display = "none";
+genLink.style.fontWeight = "700";
+contactLink.style.fontWeight = "400";
+
+genLink.onclick = (e) => {
+  e.preventDefault();
+  genSection.style.display = "block";
+  contactSection.style.display = "none";
+  genLink.style.fontWeight = "700";
+  contactLink.style.fontWeight = "400";
+};
+
+contactLink.onclick = (e) => {
+  e.preventDefault();
+  genSection.style.display = "none";
+  contactSection.style.display = "block";
+  genLink.style.fontWeight = "400";
+  contactLink.style.fontWeight = "700";
+};
