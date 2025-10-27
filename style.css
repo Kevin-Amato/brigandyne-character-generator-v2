@@ -1,7 +1,15 @@
-#primary_box {
+.custom-icon {
+  font-size: 1.4em; /* définit la taille de la police à 2 fois la taille normale */
+}
+
+.navbar {
+  margin-bottom: 50px;
+}
+
+.primary_box {
   margin: 10px;
 }
 
-.custom-icon {
-  font-size: 1.4em; /* définit la taille de la police à 2 fois la taille normale */
+#contact {
+  display: none;
 }
