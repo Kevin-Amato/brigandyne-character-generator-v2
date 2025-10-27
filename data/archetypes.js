@@ -157,7 +157,7 @@ export default [
     name: "serpent",
     description: "Froid(e), calculateur(-trice), cynique",
     bonus: [{ connaissances: 5 }, { sociabilite: 5 }, { volonte: 5 }],
-    random: [{ mouvement: -5 }, { perception: -5 }],
+    random: [[{ mouvement: -5 }, { perception: -5 }]],
   },
   {
     name: "singe",

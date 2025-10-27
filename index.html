@@ -1,7 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>  
+<head>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const isLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
+
+      if (!isLocal) {
+        const script = document.createElement('script');
+        script.defer = true;
+        script.src = 'https://cloud.umami.is/script.js';
+        script.setAttribute('data-website-id', 'a65aa44b-cfc3-4c43-84e2-7ba632b28e75');
+        document.head.appendChild(script);
+      } else {
+        console.log('Umami désactivé en local');
+      }
+    });
+  </script>
+
+ 
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="description" content="Besoin de créer un personnage pour Brigandyne v2 ? Utilisez notre générateur de personnages prétirés pour vous lancer rapidement dans l'aventure ! Bienvenue sur Brigandyne, le jeu de rôle fantastique médiéval qui vous transportera dans un univers épique et plein de rebondissements.">
@@ -34,147 +51,207 @@
   </script>
 </head>
 
-<body class="container is-max-desktop">
-  <div class="columns box" id="primary_box">
-    <!-- Column button -->
-    <div class="column is-one-fifth" >
-      <div  style="text-align: center;">
-        <button class="button is-warning">Générer</button><br><br>
+<body >
+  <nav class="navbar has-shadow is-white" role="navigation">
+    <div class="container">
+      <div class="navbar-brand">
+        <p class="navbar-item has-text-weight-bold">Lequidam</p>
       </div>
-      <label>
-        <input type="checkbox" checked> Humain</input><br>
-      </label>
-      <label>
-        <input type="checkbox" checked> Nain</input><br>
-      </label>
-      <label>
-        <input type="checkbox" checked> Elfe</input><br>
-      </label>
-      <label>
-        <input type="checkbox" checked> Halfelin</input><br>
-      </label>  
-      
-      <br><br>
 
-      <div hidden id="displayArchetype">
-        <div class="select is-small"  >
-          <select id="selectedArchetype">
-            <option value="aigle">Aigle</option>
-            <option value="ane">Âne</option>
-            <option value="cerf">Cerf</option>
-            <option value="chat">Chat</option>
-            <option value="chien">Chien</option>
-            <option value="coq">Coq</option>
-            <option value="corbeau">Corbeau</option>
-            <option value="fourmi">Fourmi</option>
-            <option value="hibou">Hibou</option>
-            <option value="hyene">Hyène</option>
-            <option value="lapin">Lapin</option>
-            <option value="lion">Lion</option>
-            <option value="loup">Loup</option>
-            <option value="mouton">Mouton</option>
-            <option value="ours">Ours</option>
-            <option value="paon">Paon</option>
-            <option value="porc">Porc</option>
-            <option value="rat">Rat</option>
-            <option value="renard">Renard</option>
-            <option value="serpent">Serpent</option>
-            <option value="singe">Singe</option>
-            <option value="souris">Souris</option>
-            <option value="taureau">Taureau</option>
-            <option value="vautour">Vautour</option>
-          </select>
+      <div class="navbar-menu is-active">
+        <div class="navbar-end">
+          <a class="navbar-item" href="#generate">Générateur</a>
+          <a class="navbar-item" href="#contact">Contact</a>
         </div>
-        <!-- lock archetype -->
-        <button  id="lockArchetype" class="button is-default is-warning is-small">Lock</button>
-      </div>
-
-      <br><br>
-      <div  style="text-align: center;">
-        <button  id="printBtn" class="button is-default is-primary" disabled>Sauvegarder</button>
       </div>
     </div>
+  </nav>
 
-    <div class="column">
 
-      <div class="field has-addons">
-        <div class="control ">
-          <a class="button" id="generateName"><span class="mdi mdi-dice-multiple-outline custom-icon"></span></a>
-        </div>
-        
-        <div class="has-icons-left">
-          <input id="charName" type="text" class="input is-info" placeholder="Nom du personnage">
-        </div>
-      </div>
-      
-      <div id="capture">
-        
-        <div>
-          <p id="lockedName" style="display: inline-block;"></p>
-          <p id="race" style="display: inline-block"></p>
-        </div>
 
-        <div class="columns">
-          <!-- Column primary stats -->
-          <div class="column is-two-thirds is-align-content-space-between" style="display: grid">
-            <table class="table is-striped">
-              <thead>
-                <tr>
-                  <th id="competences">Compétences</th>
-                  <th id="modif">Abréviations</th>
-                  <th id="score">Score</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="tBodyPrimary"></tbody>
-            </table>
+  <div class="container is-max-desktop">
+
+    <div class="box primary_box" id="generator">
+      <div class="columns">
+          
+        <!-- Column button -->
+        <div class="column is-one-fifth" >
+          <div  style="text-align: center;">
+            <button class="button is-warning">Générer</button><br><br>
+          </div>
+          <label>
+            <input type="checkbox" checked> Humain</input><br>
+          </label>
+          <label>
+            <input type="checkbox" checked> Nain</input><br>
+          </label>
+          <label>
+            <input type="checkbox" checked> Elfe</input><br>
+          </label>
+          <label>
+            <input type="checkbox" checked> Halfelin</input><br>
+          </label>  
+          
+          <br><br>
+
+          <div hidden id="displayArchetype">
+            <div class="select is-small"  >
+              <select id="selectedArchetype">
+                <option value="aigle">Aigle</option>
+                <option value="ane">Âne</option>
+                <option value="cerf">Cerf</option>
+                <option value="chat">Chat</option>
+                <option value="chien">Chien</option>
+                <option value="coq">Coq</option>
+                <option value="corbeau">Corbeau</option>
+                <option value="fourmi">Fourmi</option>
+                <option value="hibou">Hibou</option>
+                <option value="hyene">Hyène</option>
+                <option value="lapin">Lapin</option>
+                <option value="lion">Lion</option>
+                <option value="loup">Loup</option>
+                <option value="mouton">Mouton</option>
+                <option value="ours">Ours</option>
+                <option value="paon">Paon</option>
+                <option value="porc">Porc</option>
+                <option value="rat">Rat</option>
+                <option value="renard">Renard</option>
+                <option value="serpent">Serpent</option>
+                <option value="singe">Singe</option>
+                <option value="souris">Souris</option>
+                <option value="taureau">Taureau</option>
+                <option value="vautour">Vautour</option>
+              </select>
+            </div>
+            <!-- lock archetype -->
+            <button  id="lockArchetype" class="button is-default is-warning is-small">Lock</button>
           </div>
 
-          <!-- Column secondary stats   -->
-          <div class="column">
-            <table class="table is-striped" style="margin: auto">
-              <thead>
-                <tr>
-                  <th>Attributs</th>
-                  <th>Score</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Initiative</td>
-                  <td id="initiative">
-                </tr>
-                </tr>
-                <tr>
-                  <td>Vitalité</td>
-                  <td id="vitalite">
-                </tr>
-                </tr>
-                <tr>
-                  <td>Sang-froid</td>
-                  <td id="sangfroid">
-                </tr>
-                </tr>
-                <tr>
-                  <td>Destin</td>
-                  <td id="destin">
-                </tr>
-                </tr>
-              </tbody>
-            </table>
+          <br><br>
+          <div  style="text-align: center;">
+            <button  id="printBtn" class="button is-default is-primary" disabled>Sauvegarder</button>
+          </div>
+        </div>
+
+        <div class="column">
+
+          <div class="field has-addons">
+            <div class="control ">
+              <a class="button" id="generateName"><span class="mdi mdi-dice-multiple-outline custom-icon"></span></a>
+            </div>
             
-            <div class="column has-text-centered" style="margin-top: 25px">
-              <img id="archetypeImg" src=""  style="width: 150px">
-              <p id="archetypeName"></p>
-              <br>
-              <p id="archetypeDescription"></p>
+            <div class="has-icons-left">
+              <input id="charName" type="text" class="input is-info" placeholder="Nom du personnage">
             </div>
           </div>
+          
+          <div id="capture">
+            
+            <div>
+              <p id="lockedName" style="display: inline-block;"></p>
+              <p id="race" style="display: inline-block"></p>
+            </div>
+
+            <div class="columns">
+              <!-- Column primary stats -->
+              <div class="column is-two-thirds is-align-content-space-between" style="display: grid">
+                <table class="table is-striped">
+                  <thead>
+                    <tr>
+                      <th id="competences">Compétences</th>
+                      <th id="modif">Abréviations</th>
+                      <th id="score">Score</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="tBodyPrimary"></tbody>
+                </table>
+              </div>
+
+              <!-- Column secondary stats   -->
+              <div class="column">
+                <table class="table is-striped" style="margin: auto">
+                  <thead>
+                    <tr>
+                      <th>Attributs</th>
+                      <th>Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Initiative</td>
+                      <td id="initiative">
+                    </tr>
+                    </tr>
+                    <tr>
+                      <td>Vitalité</td>
+                      <td id="vitalite">
+                    </tr>
+                    </tr>
+                    <tr>
+                      <td>Sang-froid</td>
+                      <td id="sangfroid">
+                    </tr>
+                    </tr>
+                    <tr>
+                      <td>Destin</td>
+                      <td id="destin">
+                    </tr>
+                    </tr>
+                  </tbody>
+                </table>
+                
+                <div class="column has-text-centered" style="margin-top: 25px">
+                  <img id="archetypeImg" src=""  style="width: 150px">
+                  <p id="archetypeName"></p>
+                  <br>
+                  <p id="archetypeDescription"></p>
+                </div>
+              </div>
+            </div>
+          
+          </div>
         </div>
-      
+        
       </div>
     </div>
+
+    <div class="columns" id="contact">
+      <div class="column is-half is-offset-one-quarter">
+        <form action="https://formspree.io/f/movpjnaw" method="POST" class="box">
+          <p>Donnez votre avis pour améliorer le site.</p>
+          <div class="field">
+            <label class="label">Nom</label>
+            <div class="control">
+              <input class="input" type="text" name="name" placeholder="Votre nom/pseudonyme" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Email (optionnel)</label>
+            <div class="control">
+              <input class="input" type="email" name="email" placeholder="vous@example.com">
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="label">Votre retour sur le site</label>
+            <div class="control">
+              <textarea class="textarea" name="feedback" placeholder="Que pensez-vous du site ? Quelles améliorations suggérez-vous ?" required></textarea>
+            </div>
+          </div>
+
+          <div class="field is-grouped is-grouped-right">
+            <div class="control">
+              <button class="button is-link" type="submit">Envoyer</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </div>
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
   <script src="https://superal.github.io/canvas2image/canvas2image.js"></script>
