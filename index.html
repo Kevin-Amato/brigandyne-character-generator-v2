@@ -3,19 +3,16 @@
 
 <head>
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const isLocal = ['localhost', '127.0.0.1'].includes(location.hostname);
-
-      if (!isLocal) {
-        const script = document.createElement('script');
-        script.defer = true;
-        script.src = 'https://cloud.umami.is/script.js';
-        script.setAttribute('data-website-id', 'a65aa44b-cfc3-4c43-84e2-7ba632b28e75');
-        document.head.appendChild(script);
-      } else {
-        console.log('Umami désactivé en local');
-      }
-    });
+    // Charger Umami uniquement si on n'est PAS en local
+    if (!['localhost', '127.0.0.1'].includes(location.hostname)) {
+      const script = document.createElement('script');
+      script.src = 'https://cloud.umami.is/script.js';
+      script.async = true;
+      script.setAttribute('data-website-id', 'a65aa44b-cfc3-4c43-84e2-7ba632b28e75');
+      document.head.appendChild(script);
+    } else {
+      console.log('Umami désactivé en local');
+    }
   </script>
 
  
@@ -38,17 +35,6 @@
 
   <title>Générateur de personnage brigandyne v2</title>
 
-  <script>
-    // Vérifier si on n'est pas en local
-    if (location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
-      // Charger Umami uniquement si l'hôte n'est pas local
-      const umamiScript = document.createElement('script');
-      umamiScript.defer = true;
-      umamiScript.src = "https://analytics.eu.umami.is/script.js";
-      umamiScript.setAttribute('data-website-id', 'a65aa44b-cfc3-4c43-84e2-7ba632b28e75');
-      document.head.appendChild(umamiScript);
-    }
-  </script>
 </head>
 
 <body >
