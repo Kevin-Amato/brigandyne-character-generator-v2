@@ -1,7 +1,9 @@
 import archetypes from "./data/archetypes.js";
 import names from "./data/names.js";
 import races from "./data/races.js";
-import { getNode, newRow, setArchetype, setSecondaryStats } from "./utils.js";
+import { getNode, newRow, setArchetype, setSecondaryStats, findLowestStat, disableAllRollButtons } from "./utils.js";
+
+let currentStats = [];
 
 const generateBtn = getNode("button");
 const printBtn = getNode("#printBtn");
@@ -24,7 +26,6 @@ generateName.addEventListener("click", () => {
 
 generateBtn.addEventListener("click", () => {
   lockedName.innerText = "";
-  // reset previous generation
   getNode("#tBodyPrimary").innerHTML = "";
 
   printBtn.setAttribute("disabled", "");
@@ -34,14 +35,8 @@ generateBtn.addEventListener("click", () => {
   archetypeName.innerHTML = "";
   archetypeDescription.innerHTML = "";
 
-  const checkedRaces = [];
-  const raceList = document.querySelectorAll("input");
-
-  raceList.forEach((race) => {
-    if (race.checked) {
-      checkedRaces.push(race.nextSibling.data.trim().toLowerCase());
-    }
-  });
+  const checkedRaces = Array.from(document.querySelectorAll(".race-checkbox:checked"))
+    .map((cb) => cb.value);
 
   const rand = Math.floor(
     Math.random() *
@@ -55,11 +50,20 @@ generateBtn.addEventListener("click", () => {
 
   raceIs.innerHTML = race;
 
-  const storedChar = [];
+  const humanRace = races.find((r) => r.race === "Humain");
+  const humanBaseStats = {};
+  humanRace.stats.forEach((s) => { humanBaseStats[s.id] = s.value; });
 
-  for (const stat of stats) {
-    storedChar.push(newRow(stat));
-  }
+  const lowestId = findLowestStat(stats);
+
+  stats.forEach((stat) => {
+    const raceMod = stat.value - humanBaseStats[stat.id];
+    stat.raceMods = { [stat.id]: raceMod };
+    stat.archetypeMods = {};
+    newRow(stat, stat.id === lowestId, stat.raceMods, stat.archetypeMods);
+  });
+
+  currentStats = stats;
 
   setSecondaryStats(special);
   displayArchetype.removeAttribute("hidden");
@@ -67,7 +71,7 @@ generateBtn.addEventListener("click", () => {
 
 lockArchetype.addEventListener("click", () => {
   const archetype = archetypes.find((a) => a.name === selectedArchetype.value);
-  setArchetype(archetype);
+  setArchetype(archetype, currentStats);
 
   if (charName.value.length === 0) {
     selectRandomName();
@@ -79,7 +83,7 @@ lockArchetype.addEventListener("click", () => {
 });
 
 printBtn.addEventListener("click", function () {
-  const character = contructCharacter();
+  const character = constructCharacter();
 
   const options = {
     weekday: "long",
@@ -97,19 +101,40 @@ printBtn.addEventListener("click", function () {
   });
 });
 
-function contructCharacter() {
-  const items = { ...localStorage };
+function constructCharacter() {
+  const STAT_KEYS = [
+    "combat",
+    "connaissances",
+    "discretion",
+    "endurance",
+    "force",
+    "habilite",
+    "magie",
+    "mouvement",
+    "perception",
+    "sociabilite",
+    "survie",
+    "tir",
+    "volonte",
+  ];
   const character = [];
 
-  for (const item in items) {
-    character.push(JSON.parse(items[item]));
-  }
+  STAT_KEYS.forEach((key) => {
+    const item = localStorage.getItem(key);
+    if (item) {
+      try {
+        character.push(JSON.parse(item));
+      } catch {
+        // skip corrupted entries
+      }
+    }
+  });
 
   return character;
 }
 
 function selectRandomName() {
-  const rndInt = Math.floor(Math.random() * names.length) + 1;
+  const rndInt = Math.floor(Math.random() * names.length);
   charName.value = names[rndInt];
 }
 

@@ -1,5 +1,5 @@
 .custom-icon {
-  font-size: 1.4em; /* définit la taille de la police à 2 fois la taille normale */
+  font-size: 1.4em;
 }
 
 .navbar {
@@ -12,4 +12,100 @@
 
 #contact {
   display: none;
+}
+
+.race-filters label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.race-filters input[type="checkbox"] {
+  margin-right: 0.5rem;
+}
+
+.stats-grid {
+  display: grid;
+}
+
+.table-centered {
+  margin: auto;
+}
+
+.archetype-display {
+  margin-top: 25px;
+}
+
+.archetype-display img {
+  width: 150px;
+}
+
+.char-name,
+.char-race {
+  display: inline-block;
+}
+
+.lowest-stat {
+  background-color: rgba(76, 139, 85, 0.15);
+}
+
+.lowest-stat .reroll-btn {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.tooltip-host {
+  position: relative;
+  display: inline-block;
+  cursor: help;
+  text-decoration: underline dotted lightgrey 2px;
+  font-weight: bold;
+}
+
+.tooltip-box {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #2d2d2d;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: normal;
+  line-height: 1.5;
+  z-index: 100;
+  min-width: 220px;
+  max-width: calc(100vw - 24px);
+  word-break: break-word;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.tooltip-box::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border-width: 6px;
+  border-style: solid;
+  border-color: #2d2d2d transparent transparent transparent;
+}
+
+.tooltip-box.tooltip-bottom {
+  bottom: auto;
+  top: calc(100% + 10px);
+}
+
+.tooltip-box.tooltip-bottom::after {
+  top: auto;
+  bottom: 100%;
+  border-color: transparent transparent #2d2d2d transparent;
+}
+
+.tooltip-host:hover .tooltip-box {
+  opacity: 1;
+  visibility: visible;
 }

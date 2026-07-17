@@ -1,10 +1,27 @@
-const nodeList = {};
+const MOD_COLOR = "#00bcd4";
 
-export const getNode = (attribute) => {
-  return document.querySelector(attribute);
+export const getNode = (selector) => {
+  return document.querySelector(selector);
 };
 
-export const newRow = (stats) => {
+const positionTooltip = (host, box) => {
+  const hostRect = host.getBoundingClientRect();
+  const tooltipHeight = box.offsetHeight || 150;
+  const spaceAbove = hostRect.top;
+  const spaceBelow = window.innerHeight - hostRect.bottom;
+
+  if (spaceAbove < tooltipHeight + 20 && spaceBelow > spaceAbove) {
+    box.style.top = `calc(100% + 10px)`;
+    box.style.bottom = "auto";
+    box.classList.add("tooltip-bottom");
+  } else {
+    box.style.top = "auto";
+    box.style.bottom = `calc(100% + 10px)`;
+    box.classList.remove("tooltip-bottom");
+  }
+};
+
+export const newRow = (stats, isLowest = false, raceMods = {}, archetypeMods = {}) => {
   const roll = rollDice(2, 10);
   stats.roll = roll;
   stats.total = roll.sum + stats.value;
@@ -17,27 +34,44 @@ export const newRow = (stats) => {
   const td3 = document.createElement("td");
   const td4 = document.createElement("td");
 
-  const btn = document.createElement("button");
-
   td1.innerText = stats.name;
   td2.innerText = stats.abr;
-  td3.innerText = stats.name !== "Magie" ? stats.value + roll.sum : stats.value;
   td3.setAttribute("id", stats.id);
 
-  btn.className = "mdi mdi-dice-multiple-outline custom-icon";
-  btn.setAttribute("id", "rerollBtn");
-  btn.addEventListener("click", () => {
-    resetRow(td3, stats);
-    setSecondaryStats();
+  const tooltipHost = document.createElement("span");
+  tooltipHost.className = "tooltip-host";
+
+  const valueSpan = document.createElement("span");
+  valueSpan.className = "stat-value";
+  valueSpan.innerText = stats.name !== "Magie" ? stats.value + roll.sum : stats.value;
+  if (raceMods && raceMods[stats.id]) {
+    valueSpan.style.color = MOD_COLOR;
+  }
+  tooltipHost.appendChild(valueSpan);
+
+  const tooltipBox = document.createElement("span");
+  tooltipBox.className = "tooltip-box";
+  tooltipHost.appendChild(tooltipBox);
+
+  td3.appendChild(tooltipHost);
+
+  tooltipHost.addEventListener("mouseenter", () => {
+    requestAnimationFrame(() => positionTooltip(tooltipHost, tooltipBox));
   });
 
-  btn.style.backgroundColor = "white";
-  btn.style.borderRadius = "6px";
-
-  if (stats.id !== "magie") {
+  if (isLowest && stats.id !== "magie") {
+    const btn = document.createElement("button");
+    btn.className = "mdi mdi-dice-multiple-outline custom-icon reroll-btn";
+    btn.addEventListener("click", () => {
+      rerollRow(td3, stats);
+    });
+    btn.style.backgroundColor = "white";
+    btn.style.borderRadius = "6px";
     td4.appendChild(btn);
-    addTooltip(stats, td3, roll);
+    tr.classList.add("lowest-stat");
   }
+
+  addTooltip(stats, tooltipBox, roll, raceMods, archetypeMods);
 
   tr.appendChild(td1);
   tr.appendChild(td2);
@@ -61,70 +95,76 @@ export const rollDice = (nbrOfDice, valueOfDice, isMinZero = false) => {
   return score;
 };
 
-export const resetRow = (row, stats) => {
+export const rerollRow = (row, stats) => {
+  const previousTotal = stats.total;
+  const previousRoll = stats.roll;
+
   const roll = rollDice(2, 10);
   stats.roll = roll;
   stats.total = roll.sum + stats.value;
-  row.innerText = stats.total;
+
+  const bestTotal = Math.max(previousTotal, stats.total);
+
+  const valueSpan = row.querySelector(".stat-value");
+  if (valueSpan) valueSpan.innerText = bestTotal;
+
+  stats.total = bestTotal;
 
   setItemStorage(stats.id, stats);
-  addTooltip(stats, row, roll);
+
+  const tooltipBox = row.querySelector(".tooltip-box");
+  if (tooltipBox) {
+    addTooltip(stats, tooltipBox, roll, stats.raceMods, stats.archetypeMods, previousRoll, previousTotal);
+  }
+
+  disableAllRollButtons();
 };
 
-export const addTooltip = (stats, node, roll) => {
-  node.style.textDecoration = "underline dotted lightgrey 2px";
-  node.style.fontWeight = "bold";
-  node.setAttribute(
-    "data-tooltip",
-    `Score de base : ${stats.value}
-      Résultat dé 1 : ${roll.dice[0]}
-      Résultat dé 2 : ${roll.dice[1]}`
-  );
-  node.className = "has-tooltip-right";
+export const addTooltip = (stats, tooltipBox, roll, raceMods = {}, archetypeMods = {}, previousRoll = null, previousTotal = null) => {
+  const formatMod = (mods, label) => {
+    const entries = Object.entries(mods).filter(([, v]) => v !== 0);
+    if (!entries.length) return "";
+    const lines = entries.map(([key, value]) => {
+      const sign = value > 0 ? "+" : "";
+      const color = value > 0 ? "#4C8B55" : "red";
+      return `${key} : <span style="color:${color}">${sign}${value}</span>`;
+    }).join("<br>");
+    return `${label} :<br>${lines}`;
+  };
+
+  const raceSection = formatMod(raceMods, "Peuple");
+  const archetypeSection = formatMod(archetypeMods, "Archetype");
+  const sections = [raceSection, archetypeSection].filter(Boolean).join("<br><br>");
+
+  let html = `Score de base : ${stats.value}<br>`;
+  html += `Résultat dé 1 : ${roll.dice[0]}<br>`;
+  html += `Résultat dé 2 : ${roll.dice[1]}`;
+
+  if (sections) {
+    html += `<br><br>--- Modificateurs ---<br>${sections}`;
+  }
+
+  if (previousRoll) {
+    html += `<br><br>--- Relance ---<br>`;
+    html += `Ancien résultat dé 1 : ${previousRoll.dice[0]}<br>`;
+    html += `Ancien résultat dé 2 : ${previousRoll.dice[1]}<br>`;
+    html += `Ancien total : ${previousTotal}<br>`;
+    html += `Meilleur total conservé : ${stats.total}`;
+  }
+
+  tooltipBox.innerHTML = html;
 };
-
-function setNodeList() {
-  // display race name
-  nodeList.race = getNode("#race");
-
-  // primary stats
-  nodeList.combat = getNode("#combat");
-  nodeList.connaissances = getNode("#connaissances");
-  nodeList.discretion = getNode("#discretion");
-  nodeList.endurance = getNode("#endurance");
-  nodeList.force = getNode("#force");
-  nodeList.habilite = getNode("#habilite");
-  nodeList.magie = getNode("#magie");
-  nodeList.mouvement = getNode("#mouvement");
-  nodeList.perception = getNode("#perception");
-  nodeList.sociabilite = getNode("#sociabilite");
-  nodeList.survie = getNode("#survie");
-  nodeList.tir = getNode("#tir");
-  nodeList.volonte = getNode("#volonte");
-
-  // secondary stats
-  nodeList.initiative = getNode("#initiative");
-  nodeList.vitalite = getNode("#vitalite");
-  nodeList.sangfroid = getNode("#sangfroid");
-  nodeList.destin = getNode("#destin");
-
-  // other
-  nodeList.printBtn = getNode("#printBtn");
-  nodeList.displayArchetype = getNode("#displayArchetype");
-  nodeList.archetypeImg = getNode("#archetypeImg");
-  nodeList.archetypeName = getNode("#archetypeName");
-  nodeList.archetypeDescription = getNode("#archetypeDescription");
-}
 
 export const setSecondaryStats = (special = []) => {
-  setNodeList();
-
   const { stats } = special;
 
   stats?.forEach((stat) => {
-    let newValue = +nodeList[stat.name].innerText;
-    newValue += stat.value;
-    nodeList[stat.name].innerText = newValue;
+    const node = getNode(`#${stat.name}`);
+    if (node) {
+      let newValue = +node.innerText;
+      newValue += stat.value;
+      node.innerText = newValue;
+    }
   });
 
   setInitiative();
@@ -137,78 +177,122 @@ export const calculateIndice = (number) => {
   return +String(number)[0];
 };
 
-export const setInitiative = (competence) => {
+export const setInitiative = () => {
   const cmb = getItemStorage("combat");
   const mouv = getItemStorage("mouvement");
   const per = getItemStorage("perception");
 
-  nodeList.initiative.innerText =
+  getNode("#initiative").innerText =
     calculateIndice(cmb.total) +
     calculateIndice(mouv.total) +
     calculateIndice(per.total);
 };
 
-export const setVitalite = (competence) => {
+export const setVitalite = () => {
   const force = getItemStorage("force");
   const end = getItemStorage("endurance");
   const vol = getItemStorage("volonte");
 
-  nodeList.vitalite.innerText =
+  getNode("#vitalite").innerText =
     Math.floor(force.total / 5) +
     Math.floor(end.total / 5) +
     calculateIndice(vol.total);
 };
 
-export const setSangFroid = (competence) => {
+export const setSangFroid = () => {
   const cmb = getItemStorage("combat");
   const vol = getItemStorage("volonte");
   const con = getItemStorage("connaissances");
 
-  nodeList.sangfroid.innerText =
+  getNode("#sangfroid").innerText =
     Math.floor(cmb.total / 5) +
     Math.floor(vol.total / 5) +
     calculateIndice(con.total);
 };
 
-export const setDestin = (competence) => {
-  if (race.innerText === "Humain" || race.innerText === "Halfelin") {
-    nodeList.destin.innerText = 3;
+export const setDestin = () => {
+  const destinNode = getNode("#destin");
+  const race = getNode("#race")?.innerText || "";
+
+  if (race === "Humain" || race === "Halfelin") {
+    destinNode.innerText = 3;
   } else {
-    nodeList.destin.innerText = 2;
+    destinNode.innerText = 2;
   }
 };
 
-export const setArchetype = (archetype) => {
+export const setArchetype = (archetype, stats = []) => {
+  const printBtn = getNode("#printBtn");
+  const displayArchetype = getNode("#displayArchetype");
+
+  stats.forEach((stat) => {
+    stat.archetypeMods = {};
+  });
+
   archetype.bonus.forEach((a) => {
     const key = Object.keys(a)[0];
-    const statUpdated = a[key] > 0 ? "#4C8B55" : "red";
+    const value = a[key];
+    const statUpdated = MOD_COLOR;
 
-    nodeList[key].innerText = Number(nodeList[key].innerText) + a[key];
-    nodeList[key].style.color = statUpdated;
+    const stat = stats.find((s) => s.id === key);
+    if (stat) {
+      stat.archetypeMods[key] = (stat.archetypeMods[key] || 0) + value;
+    }
+
+    const node = getNode(`#${key}`);
+    if (node) {
+      const valueSpan = node.querySelector(".stat-value");
+      if (valueSpan) {
+        valueSpan.innerText = Number(valueSpan.innerText) + value;
+        valueSpan.style.color = statUpdated;
+      }
+    }
   });
 
   archetype.random?.forEach((rand) => {
     const { sum } = rollDice(1, 2, true);
     const key = Object.keys(rand[sum])[0];
+    const value = rand[sum][key];
+    const statUpdated = MOD_COLOR;
 
-    const statUpdated = rand[sum][key] > 0 ? "#4C8B55" : "red";
+    const stat = stats.find((s) => s.id === key);
+    if (stat) {
+      stat.archetypeMods[key] = (stat.archetypeMods[key] || 0) + value;
+    }
 
-    nodeList[key].innerText = Number(nodeList[key].innerText) + rand[sum][key];
-    nodeList[key].style.color = statUpdated;
+    const node = getNode(`#${key}`);
+    if (node) {
+      const valueSpan = node.querySelector(".stat-value");
+      if (valueSpan) {
+        valueSpan.innerText = Number(valueSpan.innerText) + value;
+        valueSpan.style.color = statUpdated;
+      }
+    }
   });
 
-  nodeList.printBtn.removeAttribute("disabled");
-  nodeList.displayArchetype.setAttribute("hidden", "");
+  stats.forEach((stat) => {
+    const node = getNode(`#${stat.id}`);
+    if (node && stat.roll) {
+      const tooltipBox = node.querySelector(".tooltip-box");
+      if (tooltipBox) {
+        addTooltip(stat, tooltipBox, stat.roll, stat.raceMods, stat.archetypeMods);
+      }
+    }
+  });
 
-  disableRollButtons();
+  printBtn?.removeAttribute("disabled");
+  displayArchetype?.setAttribute("hidden", "");
+
+  disableAllRollButtons();
   setSecondaryStats();
   setImgArchetype(archetype);
 };
 
-const disableRollButtons = () => {
-  const rerollBtn = document.querySelectorAll("#rerollBtn");
-  rerollBtn.forEach((btn) => {
+export const disableAllRollButtons = () => {
+  const rerollBtns = document.querySelectorAll(".reroll-btn");
+  rerollBtns.forEach((btn) => {
     btn.setAttribute("disabled", "");
+    btn.style.display = "none";
   });
 };
 
@@ -216,33 +300,65 @@ const setImgArchetype = (archetype) => {
   const { name, description } = archetype;
   const upperName = name[0].toUpperCase() + name.slice(1);
 
-  nodeList.archetypeName.innerText = upperName;
-  nodeList.archetypeDescription.innerText = description;
-  nodeList.archetypeDescription.style.fontStyle = "italic";
-  nodeList.archetypeImg.src = `./medias/archetypes/${name}.jpg`;
+  const archetypeName = getNode("#archetypeName");
+  const archetypeDescription = getNode("#archetypeDescription");
+  const archetypeImg = getNode("#archetypeImg");
+
+  if (archetypeName) archetypeName.innerText = upperName;
+  if (archetypeDescription) {
+    archetypeDescription.innerText = description;
+    archetypeDescription.style.fontStyle = "italic";
+  }
+  if (archetypeImg) archetypeImg.src = `./medias/archetypes/${name}.jpg`;
 };
 
-/**
- *
- * @param {String || Array} keys
- * @returns json object
- */
+const STAT_KEYS = [
+  "combat",
+  "connaissances",
+  "discretion",
+  "endurance",
+  "force",
+  "habilite",
+  "magie",
+  "mouvement",
+  "perception",
+  "sociabilite",
+  "survie",
+  "tir",
+  "volonte",
+];
+
 const getItemStorage = (keys) => {
-  if (Array.isArray(keys)) {
-    const output = [];
-
-    keys.forEach((key) => {
-      output.push(JSON.parse(localStorage.getItem(key)));
-    });
-
-    return output;
+  try {
+    if (Array.isArray(keys)) {
+      const output = [];
+      keys.forEach((key) => {
+        const item = localStorage.getItem(key);
+        output.push(item ? JSON.parse(item) : null);
+      });
+      return output;
+    }
+    const item = localStorage.getItem(keys);
+    return item ? JSON.parse(item) : null;
+  } catch {
+    return null;
   }
-
-  return JSON.parse(localStorage.getItem(keys));
 };
 
 const setItemStorage = (key, data) => {
-  const stringifiedData = JSON.stringify(data);
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch {
+    // storage full or unavailable
+  }
+};
 
-  localStorage.setItem(key, stringifiedData);
+export const findLowestStat = (statsList) => {
+  let lowest = statsList[0];
+  statsList.forEach((stat) => {
+    if (stat.id !== "magie" && stat.total < lowest.total) {
+      lowest = stat;
+    }
+  });
+  return lowest.id;
 };

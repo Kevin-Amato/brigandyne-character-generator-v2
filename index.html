@@ -22,9 +22,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
   
   <!-- bulma -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma-tooltip/1.2.0/bulma-tooltip.min.css"
-  integrity="sha512-eQONsEIU2JzPniggWsgCyYoASC8x8nS0w6+e5LQZbdvWzDUVfUh+vQZFmB2Ykj5uqGDIsY7tSUCdTxImWBShYg=="
-  crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css" />
   
   <!-- material design icons -->
@@ -62,21 +59,23 @@
           
         <!-- Column button -->
         <div class="column is-one-fifth" >
-          <div  style="text-align: center;">
+          <div class="has-text-centered">
             <button class="button is-warning">Générer</button><br><br>
           </div>
-          <label>
-            <input type="checkbox" checked> Humain</input><br>
-          </label>
-          <label>
-            <input type="checkbox" checked> Nain</input><br>
-          </label>
-          <label>
-            <input type="checkbox" checked> Elfe</input><br>
-          </label>
-          <label>
-            <input type="checkbox" checked> Halfelin</input><br>
-          </label>  
+          <div class="race-filters">
+            <label>
+              <input type="checkbox" class="race-checkbox" value="humain" checked> Humain
+            </label>
+            <label>
+              <input type="checkbox" class="race-checkbox" value="nain" checked> Nain
+            </label>
+            <label>
+              <input type="checkbox" class="race-checkbox" value="elfe" checked> Elfe
+            </label>
+            <label>
+              <input type="checkbox" class="race-checkbox" value="halfelin" checked> Halfelin
+            </label>
+          </div>  
           
           <br><br>
 
@@ -114,7 +113,7 @@
           </div>
 
           <br><br>
-          <div  style="text-align: center;">
+          <div class="has-text-centered">
             <button  id="printBtn" class="button is-default is-primary" disabled>Sauvegarder</button>
           </div>
         </div>
@@ -134,13 +133,13 @@
           <div id="capture">
             
             <div>
-              <p id="lockedName" style="display: inline-block;"></p>
-              <p id="race" style="display: inline-block"></p>
+              <p id="lockedName" class="char-name"></p>
+              <p id="race" class="char-race"></p>
             </div>
 
             <div class="columns">
               <!-- Column primary stats -->
-              <div class="column is-two-thirds is-align-content-space-between" style="display: grid">
+              <div class="column is-two-thirds is-align-content-space-between stats-grid">
                 <table class="table is-striped">
                   <thead>
                     <tr>
@@ -156,7 +155,7 @@
 
               <!-- Column secondary stats   -->
               <div class="column">
-                <table class="table is-striped" style="margin: auto">
+                <table class="table is-striped table-centered">
                   <thead>
                     <tr>
                       <th>Attributs</th>
@@ -187,8 +186,8 @@
                   </tbody>
                 </table>
                 
-                <div class="column has-text-centered" style="margin-top: 25px">
-                  <img id="archetypeImg" src=""  style="width: 150px">
+                <div class="column has-text-centered archetype-display">
+                  <img id="archetypeImg" src="" alt="Archetype">
                   <p id="archetypeName"></p>
                   <br>
                   <p id="archetypeDescription"></p>
